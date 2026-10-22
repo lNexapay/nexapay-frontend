@@ -1,3 +1,3 @@
-export default function Registro() {
-    return <h1>Registro</h1>
+export default function Login() {
+  return <h1>Login</h1>
 }

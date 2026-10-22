@@ -1,3 +1,3 @@
-export default function Inicio() {
-    return <h1>Inicio</h1>
+export default function Registro() {
+  return <h1>Registro</h1>
 }
