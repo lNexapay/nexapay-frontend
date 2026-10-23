@@ -117,6 +117,23 @@
   color: var(--violeta);
 }
 
+.separador {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 24px 0;
+  color: var(--texto-suave);
+  font-size: 12px;
+}
+
+.separador::before,
+.separador::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--borde);
+}
+
 /* Mobile: se oculta el panel de la derecha */
 @media (max-width: 900px) {
   .pagina { grid-template-columns: 1fr; }

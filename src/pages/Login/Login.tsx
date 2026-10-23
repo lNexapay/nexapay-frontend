@@ -1,10 +1,13 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Zap } from 'lucide-react'
+import { Zap, Mail } from 'lucide-react'
 import Logo from '../../components/Logo/Logo'
+import Input from '../../components/Input/Input'
 import styles from './Login.module.css'
 
 export default function Login() {
   const navigate = useNavigate()
+  const [email, setEmail] = useState('')
 
   return (
     <div className={styles.pagina}>
@@ -32,6 +35,18 @@ export default function Login() {
             </span>
             <Zap size={16} className={styles.demoIcono} />
           </button>
+
+          <div className={styles.separador}>o continuá con tu email</div>
+
+          <Input
+            id="email"
+            label="Correo electrónico"
+            type="email"
+            placeholder="ejemplo@nexapay.io"
+            value={email}
+            onChange={setEmail}
+            icono={Mail}
+          />
         </div>
       </section>
 
