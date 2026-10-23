@@ -1,0 +1,48 @@
+.pagina {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  min-height: 100vh;
+  background: #fff;
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  padding: 32px 48px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--azul);
+  background: #eff4ff;
+  padding: 6px 12px;
+  border-radius: 999px;
+}
+
+.punto {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--azul);
+}
+
+.visual {
+  background: var(--degradado);
+}
+
+/* Mobile: se oculta el panel de la derecha */
+@media (max-width: 900px) {
+  .pagina { grid-template-columns: 1fr; }
+  .visual { display: none; }
+  .formulario { padding: 24px 20px; }
+}
