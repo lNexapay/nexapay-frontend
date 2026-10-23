@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Zap, Mail, Lock, ShieldCheck, ArrowRight } from 'lucide-react'
 import Logo from '../../components/Logo/Logo'
 import Input from '../../components/Input/Input'
+import PanelVisual from './PanelVisual'
 import styles from './Login.module.css'
 
 export default function Login() {
@@ -94,7 +95,7 @@ export default function Login() {
         </div>
       </section>
 
-      <aside className={styles.visual}></aside>
+      <PanelVisual />
     </div>
   )
 }

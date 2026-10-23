@@ -54,10 +54,6 @@
   margin-bottom: 24px;
 }
 
-.visual {
-  background: var(--degradado);
-}
-
 .demo {
   width: 100%;
   display: flex;
@@ -196,10 +192,9 @@
   margin-top: 20px;
 }
 
-/* Mobile: se oculta el panel de la derecha */
+/* Mobile */
 @media (max-width: 900px) {
   .pagina { grid-template-columns: 1fr; }
-  .visual { display: none; }
   .formulario { padding: 24px 20px; }
   .contenido { max-width: none; }
 }
