@@ -11,6 +11,13 @@ export default function Login() {
             <span className={styles.punto} /> Simulación Activa
           </span>
         </header>
+
+        <div className={styles.contenido}>
+          <h1>Bienvenido de nuevo</h1>
+          <p className={styles.subtitulo}>
+            Accedé a tu billetera multimoneda y tu copiloto NEXAPAY AI
+          </p>
+        </div>
       </section>
 
       <aside className={styles.visual}></aside>
