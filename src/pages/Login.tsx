@@ -1,3 +1,9 @@
+import Logo from '../components/Logo'
+
 export default function Login() {
-  return <h1>Login</h1>
+  return (
+    <div>
+      <Logo />
+    </div>
+  )
 }
