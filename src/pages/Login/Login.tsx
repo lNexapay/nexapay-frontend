@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Zap, Mail, Lock } from 'lucide-react'
+import type { FormEvent } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { Zap, Mail, Lock, ShieldCheck, ArrowRight } from 'lucide-react'
 import Logo from '../../components/Logo/Logo'
 import Input from '../../components/Input/Input'
 import styles from './Login.module.css'
@@ -9,6 +10,13 @@ export default function Login() {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [recordar, setRecordar] = useState(true)
+
+  function handleSubmit(e: FormEvent) {
+    e.preventDefault()
+    // TODO: enviar email y password a la API del backend
+    navigate('/inicio')
+  }
 
   return (
     <div className={styles.pagina}>
@@ -39,7 +47,7 @@ export default function Login() {
 
           <div className={styles.separador}>o continuá con tu email</div>
 
-          <div className={styles.campos}>
+          <form onSubmit={handleSubmit} className={styles.campos}>
             <Input
               id="email"
               label="Correo electrónico"
@@ -60,7 +68,29 @@ export default function Login() {
               icono={Lock}
               accion={<a href="#">¿Olvidaste tu contraseña?</a>}
             />
-          </div>
+
+            <div className={styles.opciones}>
+              <label className={styles.recordar}>
+                <input
+                  type="checkbox"
+                  checked={recordar}
+                  onChange={(e) => setRecordar(e.target.checked)}
+                />
+                Recordar mi sesión
+              </label>
+              <span className={styles.seguro}>
+                <ShieldCheck size={14} /> Sesión Segura
+              </span>
+            </div>
+
+            <button type="submit" className={styles.boton}>
+              Iniciar sesión <ArrowRight size={16} />
+            </button>
+          </form>
+
+          <p className={styles.registro}>
+            ¿No tenés cuenta? <Link to="/registro">Registrate</Link>
+          </p>
         </div>
       </section>
 

@@ -140,6 +140,62 @@
   gap: 18px;
 }
 
+.opciones {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+}
+
+.recordar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.recordar input {
+  accent-color: var(--azul);
+  width: 16px;
+  height: 16px;
+}
+
+.seguro {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--verde);
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.boton {
+  height: 48px;
+  border: none;
+  border-radius: var(--radio);
+  background: var(--azul);
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.boton:hover {
+  background: var(--azul-oscuro);
+}
+
+.registro {
+  text-align: center;
+  font-size: 13px;
+  color: var(--texto-suave);
+  margin-top: 20px;
+}
+
 /* Mobile: se oculta el panel de la derecha */
 @media (max-width: 900px) {
   .pagina { grid-template-columns: 1fr; }
