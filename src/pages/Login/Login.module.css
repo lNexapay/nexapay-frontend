@@ -134,6 +134,12 @@
   background: var(--borde);
 }
 
+.campos {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
 /* Mobile: se oculta el panel de la derecha */
 @media (max-width: 900px) {
   .pagina { grid-template-columns: 1fr; }

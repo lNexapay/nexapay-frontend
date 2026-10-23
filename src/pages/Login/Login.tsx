@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Zap, Mail } from 'lucide-react'
+import { Zap, Mail, Lock } from 'lucide-react'
 import Logo from '../../components/Logo/Logo'
 import Input from '../../components/Input/Input'
 import styles from './Login.module.css'
@@ -8,6 +8,7 @@ import styles from './Login.module.css'
 export default function Login() {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   return (
     <div className={styles.pagina}>
@@ -38,15 +39,28 @@ export default function Login() {
 
           <div className={styles.separador}>o continuá con tu email</div>
 
-          <Input
-            id="email"
-            label="Correo electrónico"
-            type="email"
-            placeholder="ejemplo@nexapay.io"
-            value={email}
-            onChange={setEmail}
-            icono={Mail}
-          />
+          <div className={styles.campos}>
+            <Input
+              id="email"
+              label="Correo electrónico"
+              type="email"
+              placeholder="ejemplo@nexapay.io"
+              value={email}
+              onChange={setEmail}
+              icono={Mail}
+            />
+
+            <Input
+              id="password"
+              label="Contraseña"
+              type="password"
+              placeholder="••••••••"
+              value={password}
+              onChange={setPassword}
+              icono={Lock}
+              accion={<a href="#">¿Olvidaste tu contraseña?</a>}
+            />
+          </div>
         </div>
       </section>
 
