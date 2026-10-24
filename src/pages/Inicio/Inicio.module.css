@@ -1,0 +1,14 @@
+.pagina {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100vh;
+}
+
+.principal {
+  padding: 24px 32px;
+}
+
+@media (max-width: 900px) {
+  .pagina { grid-template-columns: 1fr; }
+  .principal { padding: 16px; }
+}
