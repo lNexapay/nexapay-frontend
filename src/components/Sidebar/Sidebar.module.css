@@ -68,6 +68,47 @@
   border-radius: 6px;
 }
 
+.usuario {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 16px;
+  border-top: 1px solid var(--borde);
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--violeta);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.usuarioTexto {
+  display: flex;
+  flex-direction: column;
+}
+
+.usuarioTexto strong {
+  font-size: 13px;
+}
+
+.usuarioTexto small {
+  font-size: 11px;
+  color: var(--texto-suave);
+}
+
+.perfil {
+  margin-left: auto;
+  color: var(--texto-suave);
+}
+
 @media (max-width: 900px) {
   .sidebar { display: none; }
 }

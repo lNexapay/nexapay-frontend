@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { Plus, LayoutGrid, Coins, FolderOpen, Sparkles } from 'lucide-react'
+import { Plus, LayoutGrid, Coins, FolderOpen, Sparkles, CircleUser } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import Logo from '../Logo/Logo'
 import styles from './Sidebar.module.css'
@@ -45,6 +45,15 @@ export default function Sidebar() {
           )
         })}
       </nav>
+
+      <div className={styles.usuario}>
+        <span className={styles.avatar}>N</span>
+        <div className={styles.usuarioTexto}>
+          <strong>Hola, Nati</strong>
+          <small>Modo Demo Activo</small>
+        </div>
+        <CircleUser size={18} className={styles.perfil} />
+      </div>
     </aside>
   )
 }
