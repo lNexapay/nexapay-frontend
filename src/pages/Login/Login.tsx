@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { Zap, Mail, Lock, ShieldCheck, ArrowRight } from 'lucide-react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Zap, Mail, Lock, ShieldCheck, ArrowRight, CircleCheck } from 'lucide-react'
 import Logo from '../../components/Logo/Logo'
 import Input from '../../components/Input/Input'
 import PanelVisual from './PanelVisual'
@@ -9,9 +9,13 @@ import styles from './Login.module.css'
 
 export default function Login() {
   const navigate = useNavigate()
+  const location = useLocation()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [recordar, setRecordar] = useState(true)
+
+  // ¿Viene recién registrado desde /registro?
+  const recienRegistrado = (location.state as { registrado?: boolean } | null)?.registrado
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault()
@@ -34,6 +38,12 @@ export default function Login() {
           <p className={styles.subtitulo}>
             Accedé a tu billetera multimoneda y tu copiloto NEXAPAY AI
           </p>
+
+          {recienRegistrado && (
+            <p className={styles.exito}>
+              <CircleCheck size={16} /> ¡Cuenta creada! Ya podés iniciar sesión.
+            </p>
+          )}
 
           <button type="button" className={styles.demo} onClick={() => navigate('/inicio')}>
             <span className={styles.avatar}>N</span>
