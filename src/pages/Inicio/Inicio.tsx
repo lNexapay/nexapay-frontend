@@ -1,4 +1,5 @@
 import Sidebar from '../../components/Sidebar/Sidebar'
+import Encabezado from './Encabezado'
 import styles from './Inicio.module.css'
 
 export default function Inicio() {
@@ -6,7 +7,7 @@ export default function Inicio() {
     <div className={styles.pagina}>
       <Sidebar />
       <main className={styles.principal}>
-        <h1>Hola, Nati 👋</h1>
+        <Encabezado />
       </main>
     </div>
   )
