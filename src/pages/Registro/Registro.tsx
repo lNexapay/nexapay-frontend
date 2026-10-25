@@ -2,9 +2,8 @@ import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { User, Mail, Lock, ArrowRight } from 'lucide-react'
-import Logo from '../../components/Logo/Logo'
+import AuthLayout from '../../components/AuthLayout/AuthLayout'
 import Input from '../../components/Input/Input'
-import PanelVisual from '../Login/PanelVisual'
 import { registrarUsuario } from '../../services/auth'
 import base from '../Login/Login.module.css'
 import styles from './Registro.module.css'
@@ -54,88 +53,75 @@ export default function Registro() {
   }
 
   return (
-    <div className={base.pagina}>
-      <section className={base.formulario}>
-        <header className={base.header}>
-          <Logo />
-          <span className={base.badge}>
-            <span className={base.punto} /> Simulación Activa
+    <AuthLayout>
+      <h1>Creá tu cuenta</h1>
+      <p className={base.subtitulo}>
+        Unite a la nueva generación de finanzas simuladas con NEXAPAY AI.
+      </p>
+
+      <form onSubmit={handleSubmit} className={base.campos}>
+        <Input
+          id="nombre"
+          label="Nombre completo"
+          placeholder="Natalia Gómez"
+          value={nombre}
+          onChange={setNombre}
+          icono={User}
+        />
+
+        <Input
+          id="email"
+          label="Correo electrónico"
+          type="email"
+          placeholder="nati@nexapay.io"
+          value={email}
+          onChange={setEmail}
+          icono={Mail}
+        />
+
+        <Input
+          id="password"
+          label="Contraseña"
+          type="password"
+          placeholder="Mínimo 8 caracteres"
+          value={password}
+          onChange={setPassword}
+          icono={Lock}
+        />
+
+        <Input
+          id="confirmar"
+          label="Confirmar contraseña"
+          type="password"
+          placeholder="Repetí tu contraseña"
+          value={confirmar}
+          onChange={setConfirmar}
+          icono={Lock}
+        />
+
+        <label className={`${base.recordar} ${styles.terminos}`}>
+          <input
+            type="checkbox"
+            checked={acepta}
+            onChange={(e) => setAcepta(e.target.checked)}
+          />
+          <span>
+            Acepto los Términos del Servicio y la Política de Privacidad, y reconozco que
+            opero en un entorno de simulación ficticio con fondos de prueba.
           </span>
-        </header>
+        </label>
 
-        <div className={base.contenido}>
-          <h1>Creá tu cuenta</h1>
-          <p className={base.subtitulo}>
-            Unite a la nueva generación de finanzas simuladas con NEXAPAY AI.
-          </p>
+        {error && <p className={styles.error}>{error}</p>}
 
-          <form onSubmit={handleSubmit} className={base.campos}>
-            <Input
-              id="nombre"
-              label="Nombre completo"
-              placeholder="Natalia Gómez"
-              value={nombre}
-              onChange={setNombre}
-              icono={User}
-            />
+        <button type="submit" className={base.boton} disabled={cargando}>
+          {cargando ? 'Creando cuenta...' : 'Crear cuenta'}
+          {!cargando && <ArrowRight size={16} />}
+        </button>
+      </form>
 
-            <Input
-              id="email"
-              label="Correo electrónico"
-              type="email"
-              placeholder="nati@nexapay.io"
-              value={email}
-              onChange={setEmail}
-              icono={Mail}
-            />
-
-            <Input
-              id="password"
-              label="Contraseña"
-              type="password"
-              placeholder="Mínimo 8 caracteres"
-              value={password}
-              onChange={setPassword}
-              icono={Lock}
-            />
-
-            <Input
-              id="confirmar"
-              label="Confirmar contraseña"
-              type="password"
-              placeholder="Repetí tu contraseña"
-              value={confirmar}
-              onChange={setConfirmar}
-              icono={Lock}
-            />
-
-            <label className={`${base.recordar} ${styles.terminos}`}>
-              <input
-                type="checkbox"
-                checked={acepta}
-                onChange={(e) => setAcepta(e.target.checked)}
-              />
-              <span>
-                Acepto los Términos del Servicio y la Política de Privacidad, y reconozco que
-                opero en un entorno de simulación ficticio con fondos de prueba.
-              </span>
-            </label>
-
-            {error && <p className={styles.error}>{error}</p>}
-
-            <button type="submit" className={base.boton} disabled={cargando}>
-              {cargando ? 'Creando cuenta...' : 'Crear cuenta'}
-              {!cargando && <ArrowRight size={16} />}
-            </button>
-          </form>
-
-          <p className={base.registro}>
-            ¿Ya tenés cuenta? <Link to="/login">Iniciá sesión</Link>
-          </p>
-        </div>
-      </section>
-
-      <PanelVisual />
-    </div>
+      <p className={base.registro}>
+        ¿Ya tenés cuenta? <Link to="/login">Iniciá sesión</Link>
+      </p>
+    </AuthLayout>
   )
 }
