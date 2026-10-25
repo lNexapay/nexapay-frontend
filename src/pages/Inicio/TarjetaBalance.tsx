@@ -1,0 +1,33 @@
+import { useState } from 'react'
+import { Eye, EyeOff, TrendingUp } from 'lucide-react'
+import { balanceTotalUSD, formatearMonto } from '../../data/monedas'
+import styles from './TarjetaBalance.module.css'
+
+export default function TarjetaBalance() {
+  const [visible, setVisible] = useState(true)
+
+  return (
+    <section className={styles.tarjeta}>
+      <div className={styles.fila}>
+        <span className={styles.titulo}>Balance total estimado</span>
+        <button
+          type="button"
+          className={styles.ojo}
+          onClick={() => setVisible(!visible)}
+          aria-label={visible ? 'Ocultar saldo' : 'Mostrar saldo'}
+        >
+          {visible ? <Eye size={16} /> : <EyeOff size={16} />}
+        </button>
+        <span className={styles.chip}>Fondos Simulados</span>
+      </div>
+
+      <p className={styles.monto}>
+        {visible ? `$ ${formatearMonto(balanceTotalUSD)}` : '$ ••••••'} <span>USD</span>
+      </p>
+
+      <span className={styles.variacion}>
+        <TrendingUp size={12} /> +8.4%
+      </span>
+    </section>
+  )
+}

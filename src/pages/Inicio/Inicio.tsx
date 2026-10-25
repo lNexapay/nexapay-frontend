@@ -1,5 +1,6 @@
 import Sidebar from '../../components/Sidebar/Sidebar'
 import Encabezado from './Encabezado'
+import TarjetaBalance from './TarjetaBalance'
 import styles from './Inicio.module.css'
 
 export default function Inicio() {
@@ -8,6 +9,7 @@ export default function Inicio() {
       <Sidebar />
       <main className={styles.principal}>
         <Encabezado />
+        <TarjetaBalance />
       </main>
     </div>
   )
