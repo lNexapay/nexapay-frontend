@@ -8,7 +8,8 @@ export type Usuario = {
 
 type UsuarioContextType = {
   usuario: Usuario | null
-  iniciarSesion: (usuario: Usuario, recordar: boolean) => void
+  token: string | null
+  iniciarSesion: (usuario: Usuario, recordar: boolean, token?: string) => void
   cerrarSesion: () => void
 }
 
@@ -28,21 +29,25 @@ function leerUsuarioGuardado(): Usuario | null {
 
 export function UsuarioProvider({ children }: { children: ReactNode }) {
   const [usuario, setUsuario] = useState<Usuario | null>(leerUsuarioGuardado)
+  // El token vive solo en memoria: no se guarda en el navegador
+  const [token, setToken] = useState<string | null>(null)
 
-  function iniciarSesion(nuevo: Usuario, recordar: boolean) {
+  function iniciarSesion(nuevo: Usuario, recordar: boolean, nuevoToken?: string) {
     setUsuario(nuevo)
+    setToken(nuevoToken ?? null)
     const almacen = recordar ? localStorage : sessionStorage
     almacen.setItem(CLAVE, JSON.stringify(nuevo))
   }
 
   function cerrarSesion() {
     setUsuario(null)
+    setToken(null)
     localStorage.removeItem(CLAVE)
     sessionStorage.removeItem(CLAVE)
   }
 
   return (
-    <UsuarioContext.Provider value={{ usuario, iniciarSesion, cerrarSesion }}>
+    <UsuarioContext.Provider value={{ usuario, token, iniciarSesion, cerrarSesion }}>
       {children}
     </UsuarioContext.Provider>
   )
