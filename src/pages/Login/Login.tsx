@@ -4,22 +4,42 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Zap, Mail, Lock, ShieldCheck, ArrowRight, CircleCheck } from 'lucide-react'
 import AuthLayout from '../../components/AuthLayout/AuthLayout'
 import Input from '../../components/Input/Input'
+import { loginUsuario } from '../../services/auth'
+import { useUsuario } from '../../context/UsuarioContext'
 import styles from './Login.module.css'
 
 export default function Login() {
   const navigate = useNavigate()
   const location = useLocation()
+  const { iniciarSesion } = useUsuario()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [recordar, setRecordar] = useState(true)
+  const [error, setError] = useState('')
+  const [cargando, setCargando] = useState(false)
 
   // ¿Viene recién registrado desde /registro?
   const recienRegistrado = (location.state as { registrado?: boolean } | null)?.registrado
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault()
-    // TODO: enviar email y password a la API del backend
-    navigate('/inicio')
+    setError('')
+
+    if (!email.trim() || !password) {
+      setError('Completá tu email y tu contraseña.')
+      return
+    }
+
+    setCargando(true)
+    try {
+      const { usuario, token } = await loginUsuario(email.trim(), password)
+      iniciarSesion(usuario, recordar, token)
+      navigate('/inicio')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Ocurrió un error inesperado.')
+    } finally {
+      setCargando(false)
+    }
   }
 
   return (
@@ -84,8 +104,11 @@ export default function Login() {
           </span>
         </div>
 
-        <button type="submit" className={styles.boton}>
-          Iniciar sesión <ArrowRight size={16} />
+        {error && <p className={styles.error}>{error}</p>}
+
+        <button type="submit" className={styles.boton} disabled={cargando}>
+          {cargando ? 'Ingresando...' : 'Iniciar sesión'}
+          {!cargando && <ArrowRight size={16} />}
         </button>
       </form>
 
