@@ -1,0 +1,121 @@
+.tarjeta {
+  background: #fff;
+  border: 1px solid var(--borde);
+  border-radius: 16px;
+  padding: 20px 24px;
+}
+
+.cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.cabecera h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+}
+
+.chip {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--azul);
+  background: #eff4ff;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.verTodo {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.lista {
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--borde);
+}
+
+.item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.icono {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.ingreso {
+  background: #f0fdf4;
+  color: var(--verde);
+}
+
+.conversion {
+  background: #eff4ff;
+  color: var(--azul);
+}
+
+.aporte {
+  background: #f5f0ff;
+  color: var(--violeta);
+}
+
+.info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.info strong {
+  font-size: 13px;
+}
+
+.info small,
+.monto small {
+  font-size: 11px;
+  color: var(--texto-suave);
+}
+
+.monto {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  text-align: right;
+}
+
+.monto strong {
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.positivo {
+  color: var(--verde);
+}
+
+@media (max-width: 600px) {
+  .cabecera {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
