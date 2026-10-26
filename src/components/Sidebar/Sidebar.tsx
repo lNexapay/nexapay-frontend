@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom'
 import { Plus, LayoutGrid, Coins, FolderOpen, Sparkles, CircleUser } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import Logo from '../Logo/Logo'
+import { useUsuario, inicial } from '../../context/UsuarioContext'
 import styles from './Sidebar.module.css'
 
 type ItemMenu = {
@@ -19,6 +20,9 @@ const menu: ItemMenu[] = [
 ]
 
 export default function Sidebar() {
+  const { usuario } = useUsuario()
+  const nombre = usuario?.nombre ?? 'Invitado'
+
   return (
     <aside className={styles.sidebar}>
       <Logo />
@@ -47,10 +51,10 @@ export default function Sidebar() {
       </nav>
 
       <div className={styles.usuario}>
-        <span className={styles.avatar}>N</span>
+        <span className={styles.avatar}>{inicial(nombre)}</span>
         <div className={styles.usuarioTexto}>
-          <strong>Hola, Nati</strong>
-          <small>Modo Demo Activo</small>
+          <strong>Hola, {nombre}</strong>
+          <small>{usuario?.email}</small>
         </div>
         <CircleUser size={18} className={styles.perfil} />
       </div>
