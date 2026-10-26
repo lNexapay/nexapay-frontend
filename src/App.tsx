@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { UsuarioProvider } from './context/UsuarioContext'
+import RutaProtegida from './components/RutaProtegida/RutaProtegida'
 import Login from './pages/Login/Login'
 import Registro from './pages/Registro/Registro'
 import Inicio from './pages/Inicio/Inicio'
@@ -12,7 +13,14 @@ export default function App() {
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registro" element={<Registro />} />
-          <Route path="/inicio" element={<Inicio />} />
+          <Route
+            path="/inicio"
+            element={
+              <RutaProtegida>
+                <Inicio />
+              </RutaProtegida>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </UsuarioProvider>

@@ -42,6 +42,12 @@ export default function Login() {
     }
   }
 
+  // Acceso rápido con la usuaria demo (sin pasar por el backend)
+  function entrarComoDemo() {
+    iniciarSesion({ nombre: 'Nati', email: 'nati@nexapay.demo' }, false)
+    navigate('/inicio')
+  }
+
   return (
     <AuthLayout>
       <h1>Bienvenido de nuevo</h1>
@@ -55,7 +61,7 @@ export default function Login() {
         </p>
       )}
 
-      <button type="button" className={styles.demo} onClick={() => navigate('/inicio')}>
+      <button type="button" className={styles.demo} onClick={entrarComoDemo}>
         <span className={styles.avatar}>N</span>
         <span className={styles.demoTexto}>
           <strong>
