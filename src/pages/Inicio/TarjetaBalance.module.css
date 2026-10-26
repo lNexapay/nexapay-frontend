@@ -64,3 +64,16 @@
   gap: 12px;
   margin-top: 20px;
 }
+
+.cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .cabecera {
+    flex-direction: column;
+  }
+}

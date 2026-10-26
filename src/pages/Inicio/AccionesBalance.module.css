@@ -1,0 +1,53 @@
+.acciones {
+  display: flex;
+  gap: 8px;
+}
+
+.boton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 14px;
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--texto);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.boton:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.principal {
+  background: var(--azul);
+  border-color: var(--azul);
+  color: #fff;
+}
+
+.principal:hover {
+  background: var(--azul-oscuro);
+  border-color: var(--azul-oscuro);
+}
+
+/* En mobile, los tres botones ocupan el ancho completo */
+@media (max-width: 900px) {
+  .acciones {
+    width: 100%;
+  }
+
+  .boton {
+    flex: 1;
+    justify-content: center;
+    flex-direction: column;
+    height: auto;
+    padding: 10px 6px;
+    gap: 4px;
+    font-size: 11px;
+  }
+}
