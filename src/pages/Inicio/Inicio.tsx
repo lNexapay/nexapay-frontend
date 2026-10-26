@@ -1,6 +1,8 @@
 import Sidebar from '../../components/Sidebar/Sidebar'
+import MenuInferior from '../../components/MenuInferior/MenuInferior'
 import Encabezado from './Encabezado'
 import TarjetaBalance from './TarjetaBalance'
+import TarjetaAI from './TarjetaAI'
 import styles from './Inicio.module.css'
 
 export default function Inicio() {
@@ -9,8 +11,18 @@ export default function Inicio() {
       <Sidebar />
       <main className={styles.principal}>
         <Encabezado />
-        <TarjetaBalance />
+
+        <div className={styles.grilla}>
+          <div className={styles.columna}>
+            <TarjetaBalance />
+          </div>
+
+          <div className={styles.columna}>
+            <TarjetaAI />
+          </div>
+        </div>
       </main>
+      <MenuInferior />
     </div>
   )
 }

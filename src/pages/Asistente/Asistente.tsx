@@ -1,5 +1,6 @@
 import { Sparkles, Send } from 'lucide-react'
 import Sidebar from '../../components/Sidebar/Sidebar'
+import MenuInferior from '../../components/MenuInferior/MenuInferior'
 import styles from './Asistente.module.css'
 
 export default function Asistente() {
@@ -32,6 +33,7 @@ export default function Asistente() {
           </form>
         </section>
       </main>
+      <MenuInferior />
     </div>
   )
 }

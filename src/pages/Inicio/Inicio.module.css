@@ -8,7 +8,24 @@
   padding: 24px 32px;
 }
 
+.grilla {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 20px;
+  align-items: start;
+}
+
+.columna {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (max-width: 1100px) {
+  .grilla { grid-template-columns: 1fr; }
+}
+
 @media (max-width: 900px) {
   .pagina { grid-template-columns: 1fr; }
-  .principal { padding: 16px; }
+  .principal { padding: 16px 16px 90px; }
 }

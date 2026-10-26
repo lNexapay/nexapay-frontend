@@ -1,0 +1,91 @@
+.tarjeta {
+  background: var(--degradado);
+  color: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(91, 76, 246, 0.25);
+}
+
+.fila {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  background: rgba(255, 255, 255, 0.18);
+  padding: 4px 8px;
+  border-radius: 999px;
+}
+
+.version {
+  font-size: 10px;
+  font-weight: 600;
+  opacity: 0.8;
+  background: rgba(255, 255, 255, 0.12);
+  padding: 4px 8px;
+  border-radius: 999px;
+}
+
+.titulo {
+  font-size: 20px;
+  margin-top: 16px;
+}
+
+.subtitulo {
+  font-size: 13px;
+  opacity: 0.85;
+  margin: 4px 0 16px;
+}
+
+.sugerencia {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-size: 12px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.sugerencia span {
+  flex: 1;
+}
+
+.sugerencia:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.preguntar {
+  width: 100%;
+  height: 40px;
+  margin-top: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #fff;
+  color: var(--azul);
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.preguntar:hover {
+  background: #f1f5ff;
+}
