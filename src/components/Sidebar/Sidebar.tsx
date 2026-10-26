@@ -1,8 +1,9 @@
-import { NavLink } from 'react-router-dom'
-import { Plus, LayoutGrid, Coins, FolderOpen, Sparkles, CircleUser } from 'lucide-react'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { Plus, LayoutGrid, Coins, FolderOpen, Sparkles, LogOut } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import Logo from '../Logo/Logo'
 import { useUsuario, inicial } from '../../context/UsuarioContext'
+import { logoutUsuario } from '../../services/auth'
 import styles from './Sidebar.module.css'
 
 type ItemMenu = {
@@ -20,8 +21,15 @@ const menu: ItemMenu[] = [
 ]
 
 export default function Sidebar() {
-  const { usuario } = useUsuario()
+  const navigate = useNavigate()
+  const { usuario, cerrarSesion } = useUsuario()
   const nombre = usuario?.nombre ?? 'Invitado'
+
+  async function salir() {
+    await logoutUsuario()
+    cerrarSesion()
+    navigate('/login')
+  }
 
   return (
     <aside className={styles.sidebar}>
@@ -56,7 +64,15 @@ export default function Sidebar() {
           <strong>Hola, {nombre}</strong>
           <small>{usuario?.email}</small>
         </div>
-        <CircleUser size={18} className={styles.perfil} />
+        <button
+          type="button"
+          className={styles.salir}
+          onClick={salir}
+          aria-label="Cerrar sesión"
+          title="Cerrar sesión"
+        >
+          <LogOut size={18} />
+        </button>
       </div>
     </aside>
   )

@@ -104,9 +104,22 @@
   color: var(--texto-suave);
 }
 
-.perfil {
+.salir {
   margin-left: auto;
+  background: none;
+  border: none;
   color: var(--texto-suave);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  padding: 6px;
+  border-radius: 8px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.salir:hover {
+  background: #fef2f2;
+  color: #b91c1c;
 }
 
 @media (max-width: 900px) {

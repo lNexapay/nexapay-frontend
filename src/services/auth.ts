@@ -72,3 +72,14 @@ export async function loginUsuario(
   const respuesta = data as RespuestaLogin
   return { usuario: aUsuario(respuesta.user), token: respuesta.token }
 }
+
+export async function logoutUsuario(): Promise<void> {
+  try {
+    await fetch(`${API_URL}/api/auth/logout`, {
+      method: 'POST',
+      credentials: 'include',
+    })
+  } catch {
+    // Si el back no responde, igual cerramos la sesión en el front
+  }
+}
