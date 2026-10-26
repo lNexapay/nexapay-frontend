@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Eye, EyeOff, TrendingUp } from 'lucide-react'
-import { balanceTotalUSD, formatearMonto } from '../../data/monedas'
+import { monedas, balanceTotalUSD, formatearMonto } from '../../data/monedas'
+import TarjetaMoneda from './TarjetaMoneda'
 import styles from './TarjetaBalance.module.css'
 
 export default function TarjetaBalance() {
@@ -28,6 +29,12 @@ export default function TarjetaBalance() {
       <span className={styles.variacion}>
         <TrendingUp size={12} /> +8.4%
       </span>
+
+      <div className={styles.monedas}>
+        {monedas.map((m) => (
+          <TarjetaMoneda key={m.codigo} moneda={m} visible={visible} />
+        ))}
+      </div>
     </section>
   )
 }
