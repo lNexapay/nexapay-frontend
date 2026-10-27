@@ -8,19 +8,27 @@ import TarjetaMoneda from './TarjetaMoneda'
 import AccionesBalance from './AccionesBalance'
 import styles from './TarjetaBalance.module.css'
 
-export default function TarjetaBalance() {
+type Props = {
+  actualizacion: number
+  onOperacion: () => void
+}
+
+export default function TarjetaBalance({ actualizacion, onOperacion }: Props) {
   const { token } = useUsuario()
   const [visible, setVisible] = useState(true)
   const [balance, setBalance] = useState<BalanceTotal | null>(null)
   const [error, setError] = useState('')
 
-  // Al abrir el Dashboard, pedimos los saldos al back
+  // Pide los saldos al abrir el Dashboard y cada vez que se hace una operación
   useEffect(() => {
     let activo = true
 
     obtenerBalanceTotal(token)
       .then((datos) => {
-        if (activo) setBalance(datos)
+        if (activo) {
+          setBalance(datos)
+          setError('')
+        }
       })
       .catch((err: Error) => {
         if (activo) setError(err.message)
@@ -29,7 +37,7 @@ export default function TarjetaBalance() {
     return () => {
       activo = false
     }
-  }, [token])
+  }, [token, actualizacion])
 
   // Ordenamos las monedas como en el diseño: USD, ARS, COP, EUR
   const monedas = balance
@@ -66,7 +74,7 @@ export default function TarjetaBalance() {
           </p>
         </div>
 
-        <AccionesBalance />
+        <AccionesBalance onOperacion={onOperacion} />
       </div>
 
       {error && <p className={styles.error}>{error}</p>}

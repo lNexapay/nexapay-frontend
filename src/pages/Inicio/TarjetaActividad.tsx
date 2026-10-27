@@ -6,13 +6,21 @@ import { infoMonedas, formatearMonto } from '../../data/monedas'
 import { useUsuario } from '../../context/UsuarioContext'
 import styles from './TarjetaActividad.module.css'
 
+type Props = {
+  actualizacion: number
+}
+
 // "Hoy, 02:49", "Ayer, 18:20" o "25/10, 14:00"
 function formatearFecha(fecha: Date) {
   const hoy = new Date()
   const ayer = new Date()
   ayer.setDate(hoy.getDate() - 1)
 
-  const hora = fecha.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })
+  const hora = fecha.toLocaleTimeString('es-AR', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  })
 
   if (fecha.toDateString() === hoy.toDateString()) return `Hoy, ${hora}`
   if (fecha.toDateString() === ayer.toDateString()) return `Ayer, ${hora}`
@@ -24,17 +32,21 @@ function montoConMoneda(monto: number, codigo: CodigoMoneda) {
   return `${infoMonedas[codigo].prefijo} ${formatearMonto(monto)} ${codigo}`
 }
 
-export default function TarjetaActividad() {
+export default function TarjetaActividad({ actualizacion }: Props) {
   const { token } = useUsuario()
   const [operaciones, setOperaciones] = useState<Operacion[] | null>(null)
   const [error, setError] = useState('')
 
+  // Pide las operaciones al abrir el Dashboard y cada vez que se hace una nueva
   useEffect(() => {
     let activo = true
 
     obtenerOperaciones(token, 5)
       .then((datos) => {
-        if (activo) setOperaciones(datos)
+        if (activo) {
+          setOperaciones(datos)
+          setError('')
+        }
       })
       .catch((err: Error) => {
         if (activo) setError(err.message)
@@ -43,7 +55,7 @@ export default function TarjetaActividad() {
     return () => {
       activo = false
     }
-  }, [token])
+  }, [token, actualizacion])
 
   return (
     <section className={styles.tarjeta}>
