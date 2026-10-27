@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { ArrowLeftRight, Plus, ArrowUpRight } from 'lucide-react'
 import Modal from '../../components/Modal/Modal'
 import FormularioDeposito from './FormularioDeposito'
+import FormularioConversion from './FormularioConversion'
 import styles from './AccionesBalance.module.css'
 
 type Props = {
@@ -9,7 +10,7 @@ type Props = {
 }
 
 export default function AccionesBalance({ onOperacion }: Props) {
-  const [modal, setModal] = useState<'deposito' | null>(null)
+  const [modal, setModal] = useState<'deposito' | 'conversion' | null>(null)
 
   function cerrar() {
     setModal(null)
@@ -23,7 +24,11 @@ export default function AccionesBalance({ onOperacion }: Props) {
   return (
     <>
       <div className={styles.acciones}>
-        <button type="button" className={`${styles.boton} ${styles.principal}`}>
+        <button
+          type="button"
+          className={`${styles.boton} ${styles.principal}`}
+          onClick={() => setModal('conversion')}
+        >
           <ArrowLeftRight size={15} /> Convertir
         </button>
         <button type="button" className={styles.boton} onClick={() => setModal('deposito')}>
@@ -36,6 +41,10 @@ export default function AccionesBalance({ onOperacion }: Props) {
 
       <Modal titulo="Ingresar dinero" abierto={modal === 'deposito'} onCerrar={cerrar}>
         <FormularioDeposito onListo={alTerminar} />
+      </Modal>
+
+      <Modal titulo="Convertir moneda" abierto={modal === 'conversion'} onCerrar={cerrar}>
+        <FormularioConversion onListo={alTerminar} />
       </Modal>
     </>
   )
