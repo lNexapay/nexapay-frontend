@@ -56,7 +56,7 @@ type OperacionBack = {
   createdAt: string
 }
 
-// ---------- Función interna para hablar con el back ----------
+// ---------- Funciones internas ----------
 
 async function pedir<T>(ruta: string, token?: string | null, opciones: RequestInit = {}): Promise<T> {
   let res: Response
@@ -85,6 +85,22 @@ async function pedir<T>(ruta: string, token?: string | null, opciones: RequestIn
   return data as T
 }
 
+// Traduce una operación del back al formato del front
+function aOperacion(op: OperacionBack): Operacion {
+  return {
+    id: op.id,
+    tipo: op.type === 'deposit' ? 'deposito' : 'conversion',
+    monedaOrigen: op.currencyFrom,
+    monedaDestino: op.currencyTo,
+    montoOrigen: op.amountFrom,
+    montoDestino: op.amountTo,
+    tasa: op.rateUsed,
+    estado: op.status,
+    descripcion: op.description,
+    fecha: new Date(op.createdAt),
+  }
+}
+
 // ---------- Funciones que usan las pantallas ----------
 
 export async function obtenerBalanceTotal(token?: string | null): Promise<BalanceTotal> {
@@ -106,17 +122,32 @@ export async function obtenerOperaciones(
   limite = 5,
 ): Promise<Operacion[]> {
   const data = await pedir<OperacionBack[]>(`/api/transactions?limit=${limite}`, token)
+  return data.map(aOperacion)
+}
 
-  return data.map((op) => ({
-    id: op.id,
-    tipo: op.type === 'deposit' ? 'deposito' : 'conversion',
-    monedaOrigen: op.currencyFrom,
-    monedaDestino: op.currencyTo,
-    montoOrigen: op.amountFrom,
-    montoDestino: op.amountTo,
-    tasa: op.rateUsed,
-    estado: op.status,
-    descripcion: op.description,
-    fecha: new Date(op.createdAt),
-  }))
+export async function realizarDeposito(
+  moneda: CodigoMoneda,
+  monto: number,
+  descripcion: string,
+  token?: string | null,
+): Promise<Operacion> {
+  const data = await pedir<OperacionBack>('/api/deposit', token, {
+    method: 'POST',
+    body: JSON.stringify({ currency: moneda, amount: monto, description: descripcion }),
+  })
+  return aOperacion(data)
+}
+
+export async function realizarConversion(
+  desde: CodigoMoneda,
+  hacia: CodigoMoneda,
+  monto: number,
+  descripcion: string,
+  token?: string | null,
+): Promise<Operacion> {
+  const data = await pedir<OperacionBack>('/api/convert', token, {
+    method: 'POST',
+    body: JSON.stringify({ from: desde, to: hacia, amount: monto, description: descripcion }),
+  })
+  return aOperacion(data)
 }
