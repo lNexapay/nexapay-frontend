@@ -72,6 +72,16 @@
   gap: 16px;
 }
 
+.error {
+  margin-top: 16px;
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+}
+
 @media (max-width: 900px) {
   .cabecera {
     flex-direction: column;

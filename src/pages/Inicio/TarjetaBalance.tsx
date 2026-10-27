@@ -1,12 +1,48 @@
-import { useState } from 'react'
-import { Eye, EyeOff, TrendingUp } from 'lucide-react'
-import { monedas, balanceTotalUSD, formatearMonto } from '../../data/monedas'
+import { useEffect, useState } from 'react'
+import { Eye, EyeOff } from 'lucide-react'
+import { obtenerBalanceTotal } from '../../services/billetera'
+import type { BalanceTotal } from '../../services/billetera'
+import { ordenMonedas, formatearMonto } from '../../data/monedas'
+import { useUsuario } from '../../context/UsuarioContext'
 import TarjetaMoneda from './TarjetaMoneda'
 import AccionesBalance from './AccionesBalance'
 import styles from './TarjetaBalance.module.css'
 
 export default function TarjetaBalance() {
+  const { token } = useUsuario()
   const [visible, setVisible] = useState(true)
+  const [balance, setBalance] = useState<BalanceTotal | null>(null)
+  const [error, setError] = useState('')
+
+  // Al abrir el Dashboard, pedimos los saldos al back
+  useEffect(() => {
+    let activo = true
+
+    obtenerBalanceTotal(token)
+      .then((datos) => {
+        if (activo) setBalance(datos)
+      })
+      .catch((err: Error) => {
+        if (activo) setError(err.message)
+      })
+
+    return () => {
+      activo = false
+    }
+  }, [token])
+
+  // Ordenamos las monedas como en el diseño: USD, ARS, COP, EUR
+  const monedas = balance
+    ? [...balance.monedas].sort(
+        (a, b) => ordenMonedas.indexOf(a.codigo) - ordenMonedas.indexOf(b.codigo),
+      )
+    : []
+
+  function textoTotal() {
+    if (error) return '—'
+    if (!balance) return 'Cargando...'
+    return visible ? `$ ${formatearMonto(balance.total)}` : '$ ••••••'
+  }
 
   return (
     <section className={styles.tarjeta}>
@@ -26,20 +62,18 @@ export default function TarjetaBalance() {
           </div>
 
           <p className={styles.monto}>
-            {visible ? `$ ${formatearMonto(balanceTotalUSD)}` : '$ ••••••'} <span>USD</span>
+            {textoTotal()} {balance && <span>{balance.monedaBase}</span>}
           </p>
-
-          <span className={styles.variacion}>
-            <TrendingUp size={12} /> +8.4%
-          </span>
         </div>
 
         <AccionesBalance />
       </div>
 
+      {error && <p className={styles.error}>{error}</p>}
+
       <div className={styles.monedas}>
         {monedas.map((m) => (
-          <TarjetaMoneda key={m.codigo} moneda={m} visible={visible} />
+          <TarjetaMoneda key={m.codigo} saldo={m} visible={visible} />
         ))}
       </div>
     </section>

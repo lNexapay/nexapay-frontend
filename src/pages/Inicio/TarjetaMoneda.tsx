@@ -1,23 +1,25 @@
-import type { Moneda } from '../../data/monedas'
-import { formatearMonto } from '../../data/monedas'
+import type { SaldoMoneda } from '../../services/billetera'
+import { infoMonedas, formatearMonto } from '../../data/monedas'
 import styles from './TarjetaMoneda.module.css'
 
 type Props = {
-  moneda: Moneda
+  saldo: SaldoMoneda
   visible: boolean
 }
 
-export default function TarjetaMoneda({ moneda, visible }: Props) {
-  const prefijo = moneda.codigo === 'EUR' ? '€' : '$'
+export default function TarjetaMoneda({ saldo, visible }: Props) {
+  const info = infoMonedas[saldo.codigo]
 
   return (
     <div className={styles.tarjeta}>
-      <span className={styles.icono}>{moneda.simbolo}</span>
+      <span className={styles.icono}>{info.simbolo}</span>
       <div className={styles.info}>
-        <small>{moneda.nombre}</small>
-        <strong>{visible ? `${prefijo} ${formatearMonto(moneda.saldo)}` : `${prefijo} ••••`}</strong>
+        <small>{info.nombre}</small>
+        <strong>
+          {visible ? `${info.prefijo} ${formatearMonto(saldo.saldo)}` : `${info.prefijo} ••••`}
+        </strong>
       </div>
-      <span className={styles.codigo}>{moneda.codigo}</span>
+      <span className={styles.codigo}>{saldo.codigo}</span>
     </div>
   )
 }
