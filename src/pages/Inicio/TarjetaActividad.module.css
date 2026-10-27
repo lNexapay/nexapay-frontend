@@ -119,3 +119,19 @@
     align-items: flex-start;
   }
 }
+
+.vacio {
+  font-size: 13px;
+  color: var(--texto-suave);
+  padding: 16px 0 4px;
+}
+
+.error {
+  margin-top: 12px;
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+}

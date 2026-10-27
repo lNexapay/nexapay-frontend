@@ -1,56 +1,116 @@
-import { ArrowDown, ArrowLeftRight, PiggyBank, ChevronRight } from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
-import { movimientos } from '../../data/movimientos'
-import type { TipoMovimiento } from '../../data/movimientos'
-import { formatearMonto } from '../../data/monedas'
+import { useEffect, useState } from 'react'
+import { ArrowDown, ArrowLeftRight, ChevronRight } from 'lucide-react'
+import { obtenerOperaciones } from '../../services/billetera'
+import type { Operacion, CodigoMoneda } from '../../services/billetera'
+import { infoMonedas, formatearMonto } from '../../data/monedas'
+import { useUsuario } from '../../context/UsuarioContext'
 import styles from './TarjetaActividad.module.css'
 
-// Ícono y color según el tipo de movimiento
-const estilosPorTipo: Record<TipoMovimiento, { icono: LucideIcon; clase: string }> = {
-  ingreso: { icono: ArrowDown, clase: styles.ingreso },
-  conversion: { icono: ArrowLeftRight, clase: styles.conversion },
-  aporte: { icono: PiggyBank, clase: styles.aporte },
+// "Hoy, 02:49", "Ayer, 18:20" o "25/10, 14:00"
+function formatearFecha(fecha: Date) {
+  const hoy = new Date()
+  const ayer = new Date()
+  ayer.setDate(hoy.getDate() - 1)
+
+  const hora = fecha.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })
+
+  if (fecha.toDateString() === hoy.toDateString()) return `Hoy, ${hora}`
+  if (fecha.toDateString() === ayer.toDateString()) return `Ayer, ${hora}`
+  return `${fecha.toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit' })}, ${hora}`
+}
+
+// "$ 50,00 USD" o "€ 92,34 EUR"
+function montoConMoneda(monto: number, codigo: CodigoMoneda) {
+  return `${infoMonedas[codigo].prefijo} ${formatearMonto(monto)} ${codigo}`
 }
 
 export default function TarjetaActividad() {
+  const { token } = useUsuario()
+  const [operaciones, setOperaciones] = useState<Operacion[] | null>(null)
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    let activo = true
+
+    obtenerOperaciones(token, 5)
+      .then((datos) => {
+        if (activo) setOperaciones(datos)
+      })
+      .catch((err: Error) => {
+        if (activo) setError(err.message)
+      })
+
+    return () => {
+      activo = false
+    }
+  }, [token])
+
   return (
     <section className={styles.tarjeta}>
       <div className={styles.cabecera}>
         <h2>
-          Actividad simulada reciente <span className={styles.chip}>Hoy</span>
+          Actividad reciente <span className={styles.chip}>Últimas 5</span>
         </h2>
         <a href="#" className={styles.verTodo}>
           Ver todo el historial <ChevronRight size={14} />
         </a>
       </div>
 
-      <ul className={styles.lista}>
-        {movimientos.map((mov) => {
-          const { icono: Icono, clase } = estilosPorTipo[mov.tipo]
-          const signo = mov.monto > 0 ? '+' : '-'
-          const prefijo = mov.moneda === 'EUR' ? '€' : '$'
+      {error && <p className={styles.error}>{error}</p>}
 
-          return (
-            <li key={mov.id} className={styles.item}>
-              <span className={`${styles.icono} ${clase}`}>
-                <Icono size={16} />
-              </span>
+      {!error && !operaciones && <p className={styles.vacio}>Cargando...</p>}
 
-              <div className={styles.info}>
-                <strong>{mov.titulo}</strong>
-                <small>{mov.detalle}</small>
-              </div>
+      {operaciones && operaciones.length === 0 && (
+        <p className={styles.vacio}>Todavía no hay operaciones.</p>
+      )}
 
-              <div className={styles.monto}>
-                <strong className={mov.monto > 0 ? styles.positivo : ''}>
-                  {signo} {prefijo} {formatearMonto(Math.abs(mov.monto))} {mov.moneda}
-                </strong>
-                <small>{mov.nota}</small>
-              </div>
-            </li>
-          )
-        })}
-      </ul>
+      {operaciones && operaciones.length > 0 && (
+        <ul className={styles.lista}>
+          {operaciones.map((op) => {
+            const esDeposito = op.tipo === 'deposito'
+            const Icono = esDeposito ? ArrowDown : ArrowLeftRight
+
+            const titulo = esDeposito
+              ? op.descripcion || `Depósito en ${op.monedaDestino}`
+              : `Conversión ${op.monedaOrigen} a ${op.monedaDestino}`
+
+            const detalle = esDeposito
+              ? formatearFecha(op.fecha)
+              : `${formatearFecha(op.fecha)} • Tasa ${op.tasa}`
+
+            return (
+              <li key={op.id} className={styles.item}>
+                <span
+                  className={`${styles.icono} ${esDeposito ? styles.ingreso : styles.conversion}`}
+                >
+                  <Icono size={16} />
+                </span>
+
+                <div className={styles.info}>
+                  <strong>{titulo}</strong>
+                  <small>{detalle}</small>
+                </div>
+
+                <div className={styles.monto}>
+                  {esDeposito ? (
+                    <>
+                      <strong className={styles.positivo}>
+                        + {montoConMoneda(op.montoDestino, op.monedaDestino)}
+                      </strong>
+                      <small>{op.estado === 'completed' ? 'Completado' : op.estado}</small>
+                    </>
+                  ) : (
+                    <>
+                      <strong>- {montoConMoneda(op.montoOrigen, op.monedaOrigen)}</strong>
+                      <small>+ {montoConMoneda(op.montoDestino, op.monedaDestino)}</small>
+                    </>
+                  )}
+                </div>
+              </li>
+            )
+          })}
+        </ul>
+      )}
     </section>
   )
 }
