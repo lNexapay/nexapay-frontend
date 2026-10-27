@@ -44,7 +44,7 @@ export default function Login() {
 
   // Acceso rápido con la usuaria demo (sin pasar por el backend)
   function entrarComoDemo() {
-    iniciarSesion({ nombre: 'Nati', email: 'nati@nexapay.demo' }, false)
+    iniciarSesion({ nombre: 'Nati', email: 'nati@nexapay.demo', demo: true }, false)
     navigate('/inicio')
   }
 
