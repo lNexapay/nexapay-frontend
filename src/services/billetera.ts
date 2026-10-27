@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL
+import { pedir } from './api'
 
 export type CodigoMoneda = 'USD' | 'EUR' | 'ARS' | 'COP'
 
@@ -54,35 +54,6 @@ type OperacionBack = {
   status: string
   description: string
   createdAt: string
-}
-
-// ---------- Funciones internas ----------
-
-async function pedir<T>(ruta: string, token?: string | null, opciones: RequestInit = {}): Promise<T> {
-  let res: Response
-  try {
-    res = await fetch(`${API_URL}${ruta}`, {
-      ...opciones,
-      credentials: 'include',
-      headers: {
-        ...(opciones.body ? { 'Content-Type': 'application/json' } : {}),
-        // Si hay sesión, mandamos el token (lo van a pedir cuando protejan la wallet)
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      },
-    })
-  } catch {
-    // fetch falla así cuando el servidor no responde (apagado o sin conexión)
-    throw new Error('No se pudo conectar con el servidor. Probá de nuevo en unos minutos.')
-  }
-
-  const data = await res.json().catch(() => null)
-
-  if (!res.ok) {
-    // El back manda los errores como { "error": "..." }
-    throw new Error(data?.error ?? data?.message ?? 'Ocurrió un error con el servidor.')
-  }
-
-  return data as T
 }
 
 // Traduce una operación del back al formato del front
