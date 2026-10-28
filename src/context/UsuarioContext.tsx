@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
 import { renovarSesion, obtenerUsuarioActual } from '../services/auth'
-import { ErrorApi } from '../services/api'
+import { ErrorApi, registrarAvisoToken } from '../services/api'
 
 export type Usuario = {
   nombre: string
@@ -52,6 +52,20 @@ export function UsuarioProvider({ children }: { children: ReactNode }) {
     const guardado = leerUsuarioGuardado()
     return guardado !== null && !guardado.demo
   })
+
+  // Escuchamos a api.ts: token renovado automáticamente o sesión terminada
+  useEffect(() => {
+    registrarAvisoToken((nuevoToken) => {
+      if (nuevoToken) {
+        setToken(nuevoToken)
+      } else {
+        setUsuario(null)
+        setToken(null)
+        borrarUsuarioGuardado()
+      }
+    })
+    return () => registrarAvisoToken(null)
+  }, [])
 
   // Al abrir la app: renovar el token con la cookie y traer los datos del usuario
   useEffect(() => {
