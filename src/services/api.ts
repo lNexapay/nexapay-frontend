@@ -1,4 +1,6 @@
-const API_URL = import.meta.env.VITE_API_URL
+const API_URL = import.meta.env.PROD
+  ? ''
+  : import.meta.env.VITE_API_URL
 
 // Error que además del mensaje guarda el código HTTP (400, 401, 409...)
 export class ErrorApi extends Error {
