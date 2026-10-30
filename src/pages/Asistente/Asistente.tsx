@@ -1,6 +1,7 @@
-import { Sparkles, Send } from 'lucide-react'
+import { Sparkles } from 'lucide-react'
 import Sidebar from '../../components/Sidebar/Sidebar'
 import MenuInferior from '../../components/MenuInferior/MenuInferior'
+import Chat from '../../components/Chat/Chat'
 import styles from './Asistente.module.css'
 
 export default function Asistente() {
@@ -19,18 +20,7 @@ export default function Asistente() {
         </header>
 
         <section className={styles.chat}>
-          <div className={styles.mensajes}>
-            <div className={`${styles.burbuja} ${styles.ia}`}>
-              ¡Hola! Soy NEXAPAY AI. ¿En qué puedo ayudarte hoy?
-            </div>
-          </div>
-
-          <form className={styles.barra} onSubmit={(e) => e.preventDefault()}>
-            <input placeholder="Escribí tu pregunta..." />
-            <button type="submit" aria-label="Enviar">
-              <Send size={18} />
-            </button>
-          </form>
+          <Chat />
         </section>
       </main>
       <MenuInferior />
