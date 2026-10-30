@@ -3,6 +3,7 @@ import { Plus, LayoutGrid, Coins, FolderOpen, Sparkles, LogOut } from 'lucide-re
 import type { LucideIcon } from 'lucide-react'
 import Logo from '../Logo/Logo'
 import { useUsuario, inicial } from '../../context/UsuarioContext'
+import { useChat } from '../../context/ChatContext'
 import { logoutUsuario } from '../../services/auth'
 import styles from './Sidebar.module.css'
 
@@ -10,19 +11,18 @@ type ItemMenu = {
   ruta: string
   texto: string
   icono: LucideIcon
-  etiqueta?: string
 }
 
 const menu: ItemMenu[] = [
   { ruta: '/inicio', texto: 'Inicio', icono: LayoutGrid },
   { ruta: '/monedas', texto: 'Monedas', icono: Coins },
   { ruta: '/espacios', texto: 'Mis espacios', icono: FolderOpen },
-  { ruta: '/ai', texto: 'NEXAPAY AI', icono: Sparkles, etiqueta: 'COPILOTO' },
 ]
 
 export default function Sidebar() {
   const navigate = useNavigate()
   const { usuario, cerrarSesion } = useUsuario()
+  const { abierto, abrirChat } = useChat()
   const nombre = usuario?.nombre ?? 'Invitado'
 
   async function salir() {
@@ -52,10 +52,20 @@ export default function Sidebar() {
             >
               <Icono size={16} />
               {item.texto}
-              {item.etiqueta && <span className={styles.etiqueta}>{item.etiqueta}</span>}
             </NavLink>
           )
         })}
+
+        {/* NEXAPAY AI no es una página: abre el chat flotante */}
+        <button
+          type="button"
+          className={`${styles.item} ${styles.itemBoton} ${abierto ? styles.activo : ''}`}
+          onClick={abrirChat}
+        >
+          <Sparkles size={16} />
+          NEXAPAY AI
+          <span className={styles.etiqueta}>COPILOTO</span>
+        </button>
       </nav>
 
       <div className={styles.usuario}>

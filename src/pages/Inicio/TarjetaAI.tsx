@@ -1,9 +1,9 @@
-import { useNavigate } from 'react-router-dom'
 import { Sparkles, ChevronRight, MessageSquare } from 'lucide-react'
+import { useChat } from '../../context/ChatContext'
 import styles from './TarjetaAI.module.css'
 
 export default function TarjetaAI() {
-  const navigate = useNavigate()
+  const { abrirChat } = useChat()
 
   return (
     <section className={styles.tarjeta}>
@@ -17,13 +17,13 @@ export default function TarjetaAI() {
       <h2 className={styles.titulo}>NEXAPAY AI</h2>
       <p className={styles.subtitulo}>¿En qué puedo ayudarte hoy?</p>
 
-      <button type="button" className={styles.sugerencia} onClick={() => navigate('/ai')}>
+      <button type="button" className={styles.sugerencia} onClick={abrirChat}>
         <Sparkles size={13} />
         <span>¿Cómo va mi presupuesto?</span>
         <ChevronRight size={14} />
       </button>
 
-      <button type="button" className={styles.preguntar} onClick={() => navigate('/ai')}>
+      <button type="button" className={styles.preguntar} onClick={abrirChat}>
         <MessageSquare size={15} /> Preguntar
       </button>
     </section>

@@ -30,4 +30,14 @@
   .activo {
     color: var(--azul);
   }
+
+    .itemBoton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font: inherit;
+    font-size: 11px;
+  }
 }
+
+ 

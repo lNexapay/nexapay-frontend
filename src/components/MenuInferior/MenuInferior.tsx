@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import { LayoutGrid, Coins, FolderOpen, Sparkles } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
+import { useChat } from '../../context/ChatContext'
 import styles from './MenuInferior.module.css'
 
 type Item = {
@@ -13,10 +14,11 @@ const items: Item[] = [
   { ruta: '/inicio', texto: 'Inicio', icono: LayoutGrid },
   { ruta: '/monedas', texto: 'Monedas', icono: Coins },
   { ruta: '/espacios', texto: 'Espacios', icono: FolderOpen },
-  { ruta: '/ai', texto: 'NEXAPAY AI', icono: Sparkles },
 ]
 
 export default function MenuInferior() {
+  const { abierto, abrirChat } = useChat()
+
   return (
     <nav className={styles.menu}>
       {items.map((item) => {
@@ -34,6 +36,16 @@ export default function MenuInferior() {
           </NavLink>
         )
       })}
+
+      {/* NEXAPAY AI abre el chat flotante */}
+      <button
+        type="button"
+        className={`${styles.item} ${styles.itemBoton} ${abierto ? styles.activo : ''}`}
+        onClick={abrirChat}
+      >
+        <Sparkles size={20} />
+        <span>NEXAPAY AI</span>
+      </button>
     </nav>
   )
 }

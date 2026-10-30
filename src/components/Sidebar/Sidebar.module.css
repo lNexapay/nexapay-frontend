@@ -122,6 +122,15 @@
   color: #b91c1c;
 }
 
+.itemBoton {
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+}
+
 @media (max-width: 900px) {
   .sidebar { display: none; }
 }
