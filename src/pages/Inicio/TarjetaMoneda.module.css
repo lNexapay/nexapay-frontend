@@ -45,3 +45,30 @@
   padding: 3px 7px;
   border-radius: 6px;
 }
+
+@media (max-width: 480px) {
+  .tarjeta {
+    position: relative;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .icono {
+    width: 32px;
+    height: 32px;
+    font-size: 10px;
+  }
+
+  .codigo {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+  }
+
+  .info strong {
+    font-size: 14px;
+    overflow-wrap: anywhere;
+  }
+}

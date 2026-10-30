@@ -60,7 +60,7 @@
 
 .monedas {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
   margin-top: 20px;
 }
@@ -87,3 +87,9 @@
     flex-direction: column;
   }
 }
+
+  @media (max-width: 480px) {
+    .tarjeta { padding: 16px; }
+    .monto { font-size: 26px; }
+    .monedas { gap: 8px; }
+  }

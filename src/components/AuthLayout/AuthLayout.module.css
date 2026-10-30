@@ -50,6 +50,11 @@
 
 @media (max-width: 900px) {
   .pagina { grid-template-columns: 1fr; }
-  .formulario { padding: 24px 20px; }
-  .contenido { max-width: none; }
+  .formulario { padding: 20px 20px 32px; }
+  .contenido {
+    max-width: none;
+    margin: 32px 0 0;
+    padding: 0;
+  }
+  .contenido h1 { font-size: 24px; }
 }

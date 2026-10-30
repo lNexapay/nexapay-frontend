@@ -135,3 +135,13 @@
   border-radius: 10px;
   font-size: 13px;
 }
+
+@media (max-width: 480px) {
+  .tarjeta { padding: 16px; }
+  .item { align-items: flex-start; }
+  .monto { max-width: 45%; }
+  .monto strong {
+    white-space: normal;
+    font-size: 12px;
+  }
+}
