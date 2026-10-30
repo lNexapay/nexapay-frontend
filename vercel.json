@@ -1,3 +1,13 @@
+
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://nexapay-backend-production-94be.up.railway.app/api/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/"
+    }
+  ]
 }
