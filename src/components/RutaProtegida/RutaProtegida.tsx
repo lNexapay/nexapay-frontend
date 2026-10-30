@@ -1,6 +1,7 @@
 import { Navigate } from 'react-router-dom'
 import type { ReactNode } from 'react'
 import { useUsuario } from '../../context/UsuarioContext'
+import ChatFlotante from '../ChatFlotante/ChatFlotante'
 
 export default function RutaProtegida({ children }: { children: ReactNode }) {
   const { usuario, cargando } = useUsuario()
@@ -26,5 +27,10 @@ export default function RutaProtegida({ children }: { children: ReactNode }) {
     return <Navigate to="/login" replace />
   }
 
-  return <>{children}</>
+  return (
+    <>
+      {children}
+      <ChatFlotante />
+    </>
+  )
 }
