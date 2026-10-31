@@ -6,6 +6,7 @@ import { ErrorApi, registrarAvisoToken } from '../services/api'
 export type Usuario = {
   nombre: string
   email: string
+  cuenta?: string // número de cuenta (lo genera el back)
   demo?: boolean // el usuario demo no tiene sesión en el back
 }
 

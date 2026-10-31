@@ -6,6 +6,8 @@ type UsuarioBack = {
   id: string
   name: string
   email: string
+  accountNumber?: string | number
+  account_number?: string | number
 }
 
 type RespuestaRegistro = {
@@ -34,9 +36,14 @@ const CUENTA_DEMO = {
   password: 'NexapayDemo2026',
 }
 
-// Traducimos los nombres del back (name) a los del front (nombre)
+// Traducimos los nombres del back a los del front
 function aUsuario(user: UsuarioBack): Usuario {
-  return { nombre: user.name, email: user.email }
+  const cuenta = user.accountNumber ?? user.account_number
+  return {
+    nombre: user.name,
+    email: user.email,
+    cuenta: cuenta !== undefined ? String(cuenta) : undefined,
+  }
 }
 
 // Llamadas "crudas" al back, sin traducir errores

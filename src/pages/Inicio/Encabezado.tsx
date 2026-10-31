@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Bell, LogOut } from 'lucide-react'
 import { useUsuario, inicial } from '../../context/UsuarioContext'
 import { useCerrarSesion } from '../../hooks/useCerrarSesion'
+import NumeroCuenta from '../../components/NumeroCuenta/NumeroCuenta'
 import styles from './Encabezado.module.css'
 
 export default function Encabezado() {
@@ -30,9 +31,16 @@ export default function Encabezado() {
         <h1 className={styles.saludo}>
           Hola, {nombre} 👋 <span className={styles.entorno}>Entorno Demo</span>
         </h1>
-        <p className={styles.subtitulo}>
-          Seguimos construyendo tu futuro con algoritmos en tiempo real
-        </p>
+
+        {usuario?.cuenta ? (
+          <div className={styles.subtitulo}>
+            <NumeroCuenta cuenta={usuario.cuenta} />
+          </div>
+        ) : (
+          <p className={styles.subtitulo}>
+            Seguimos construyendo tu futuro con algoritmos en tiempo real
+          </p>
+        )}
       </div>
 
       <div className={styles.acciones}>

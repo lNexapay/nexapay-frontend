@@ -157,4 +157,5 @@
   .simulacion,
   .modo { display: none; }
   .saludo { font-size: 18px; }
+  .encabezado { align-items: flex-start; }
 }
