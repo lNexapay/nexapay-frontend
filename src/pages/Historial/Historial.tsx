@@ -12,7 +12,7 @@ export default function Historial() {
           <ArrowLeft size={16} /> Volver al inicio
         </Link>
         <h1>Historial</h1>
-        <p>Todos tus depósitos, conversiones y transferencias, de la más reciente a la más antigua.</p>
+        <p>Todos tus depósitos, conversiones y transferencia.</p>
       </header>
 
       <TarjetaActividad completo />
