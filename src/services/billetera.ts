@@ -1,4 +1,4 @@
-import { pedir } from './api'
+import { pedir, ErrorApi } from './api'
 
 export type CodigoMoneda = 'USD' | 'EUR' | 'ARS' | 'COP'
 
@@ -29,6 +29,12 @@ export type Operacion = {
   fecha: Date
 }
 
+export type Tasas = {
+  base: CodigoMoneda
+  actualizado: Date
+  valores: Record<CodigoMoneda, number> // cuánto vale 1 unidad de la base en cada moneda
+}
+
 // ---------- Cómo responde el back ----------
 
 type RespuestaTotal = {
@@ -56,6 +62,12 @@ type OperacionBack = {
   createdAt: string
 }
 
+type RespuestaTasas = {
+  base: CodigoMoneda
+  updatedAt: string
+  rates: Record<CodigoMoneda, number>
+}
+
 // Traduce una operación del back al formato del front
 function aOperacion(op: OperacionBack): Operacion {
   return {
@@ -72,7 +84,7 @@ function aOperacion(op: OperacionBack): Operacion {
   }
 }
 
-// ---------- Funciones que usan las pantallas ----------
+// ---------- Saldos ----------
 
 export async function obtenerBalanceTotal(token?: string | null): Promise<BalanceTotal> {
   const data = await pedir<RespuestaTotal>('/api/balances/total?base=USD', token)
@@ -87,6 +99,8 @@ export async function obtenerBalanceTotal(token?: string | null): Promise<Balanc
     })),
   }
 }
+
+// ---------- Operaciones ----------
 
 export async function obtenerOperaciones(
   token?: string | null,
@@ -121,4 +135,44 @@ export async function realizarConversion(
     body: JSON.stringify({ from: desde, to: hacia, amount: monto, description: descripcion }),
   })
   return aOperacion(data)
+}
+
+// ---------- Transferencias ----------
+
+export async function realizarTransferencia(
+  destinatario: string, // email o número de cuenta de 8 dígitos
+  moneda: CodigoMoneda,
+  monto: number,
+  descripcion: string,
+  token?: string | null,
+): Promise<Operacion> {
+  try {
+    const data = await pedir<OperacionBack>('/api/transfers', token, {
+      method: 'POST',
+      body: JSON.stringify({
+        toAlias: destinatario, // el back lo llama toAlias, pero acepta email o número de cuenta
+        currency: moneda,
+        amount: monto,
+        description: descripcion,
+      }),
+    })
+    return aOperacion(data)
+  } catch (err) {
+    if (err instanceof ErrorApi && err.status === 404) {
+      throw new Error('No encontramos ningún usuario con ese email o número de cuenta.')
+    }
+    throw err
+  }
+}
+
+// ---------- Tasas de cambio ----------
+
+export async function obtenerTasas(): Promise<Tasas> {
+  const data = await pedir<RespuestaTasas>('/api/rates')
+
+  return {
+    base: data.base,
+    actualizado: new Date(data.updatedAt),
+    valores: data.rates,
+  }
 }
