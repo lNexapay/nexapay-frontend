@@ -4,6 +4,7 @@ import styles from './NumeroCuenta.module.css'
 
 type Props = {
   cuenta: string
+  compacto?: boolean
 }
 
 // "58301742" → "5830 1742"
@@ -11,7 +12,7 @@ function formatear(cuenta: string) {
   return cuenta.replace(/(\d{4})(?=\d)/g, '$1 ')
 }
 
-export default function NumeroCuenta({ cuenta }: Props) {
+export default function NumeroCuenta({ cuenta, compacto = false }: Props) {
   const [copiado, setCopiado] = useState(false)
 
   // El "¡Copiado!" desaparece solo después de 1,5 segundos
@@ -31,7 +32,7 @@ export default function NumeroCuenta({ cuenta }: Props) {
   }
 
   return (
-    <div className={styles.cuenta}>
+    <div className={`${styles.cuenta} ${compacto ? styles.compacto : ''}`}>
       <Landmark size={14} />
       <span>
         Cuenta: <strong>{formatear(cuenta)}</strong>

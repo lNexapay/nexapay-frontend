@@ -1,10 +1,11 @@
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { Plus, LayoutGrid, Coins, FolderOpen, Sparkles, LogOut } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import Logo from '../Logo/Logo'
+import NumeroCuenta from '../NumeroCuenta/NumeroCuenta'
 import { useUsuario, inicial } from '../../context/UsuarioContext'
 import { useChat } from '../../context/ChatContext'
-import { logoutUsuario } from '../../services/auth'
+import { useCerrarSesion } from '../../hooks/useCerrarSesion'
 import styles from './Sidebar.module.css'
 
 type ItemMenu = {
@@ -20,16 +21,10 @@ const menu: ItemMenu[] = [
 ]
 
 export default function Sidebar() {
-  const navigate = useNavigate()
-  const { usuario, cerrarSesion } = useUsuario()
+  const { usuario } = useUsuario()
   const { abierto, abrirChat } = useChat()
+  const salir = useCerrarSesion()
   const nombre = usuario?.nombre ?? 'Invitado'
-
-  async function salir() {
-    await logoutUsuario()
-    cerrarSesion()
-    navigate('/login')
-  }
 
   return (
     <aside className={styles.sidebar}>
@@ -68,21 +63,29 @@ export default function Sidebar() {
         </button>
       </nav>
 
-      <div className={styles.usuario}>
-        <span className={styles.avatar}>{inicial(nombre)}</span>
-        <div className={styles.usuarioTexto}>
-          <strong>Hola, {nombre}</strong>
-          <small>{usuario?.email}</small>
+      <div className={styles.pie}>
+        <div className={styles.usuario}>
+          <span className={styles.avatar}>{inicial(nombre)}</span>
+          <div className={styles.usuarioTexto}>
+            <strong>Hola, {nombre}</strong>
+            <small>{usuario?.email}</small>
+          </div>
+          <button
+            type="button"
+            className={styles.salir}
+            onClick={salir}
+            aria-label="Cerrar sesión"
+            title="Cerrar sesión"
+          >
+            <LogOut size={18} />
+          </button>
         </div>
-        <button
-          type="button"
-          className={styles.salir}
-          onClick={salir}
-          aria-label="Cerrar sesión"
-          title="Cerrar sesión"
-        >
-          <LogOut size={18} />
-        </button>
+
+        {usuario?.cuenta && (
+          <div className={styles.cuenta}>
+            <NumeroCuenta cuenta={usuario.cuenta} compacto />
+          </div>
+        )}
       </div>
     </aside>
   )

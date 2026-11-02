@@ -68,13 +68,29 @@
   border-radius: 6px;
 }
 
-.usuario {
+.itemBoton {
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+}
+
+/* ---------- Pie: usuario y número de cuenta ---------- */
+.pie {
   margin-top: auto;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 10px;
   padding-top: 16px;
   border-top: 1px solid var(--borde);
+}
+
+.usuario {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .avatar {
@@ -93,6 +109,7 @@
 .usuarioTexto {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .usuarioTexto strong {
@@ -102,6 +119,9 @@
 .usuarioTexto small {
   font-size: 11px;
   color: var(--texto-suave);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .salir {
@@ -122,13 +142,8 @@
   color: #b91c1c;
 }
 
-.itemBoton {
-  width: 100%;
-  background: none;
-  border: none;
-  text-align: left;
-  cursor: pointer;
-  font: inherit;
+.cuenta {
+  padding-left: 42px;
 }
 
 @media (max-width: 900px) {
