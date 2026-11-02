@@ -10,15 +10,9 @@ type Props = {
   onListo: () => void
 }
 
-// Si son solo números (con o sin espacios), los juntamos: "5830 1742" → "58301742"
-function limpiarDestinatario(valor: string) {
-  const sinEspacios = valor.replace(/\s/g, '')
-  return /^\d+$/.test(sinEspacios) ? sinEspacios : valor.trim()
-}
-
 export default function FormularioTransferencia({ onListo }: Props) {
   const { token } = useUsuario()
-  const [destinatario, setDestinatario] = useState('')
+  const [cuenta, setCuenta] = useState('')
   const [moneda, setMoneda] = useState<CodigoMoneda>('USD')
   const [monto, setMonto] = useState('')
   const [descripcion, setDescripcion] = useState('')
@@ -29,12 +23,16 @@ export default function FormularioTransferencia({ onListo }: Props) {
     e.preventDefault()
     setError('')
 
-    const destino = limpiarDestinatario(destinatario)
-    const esCuenta = /^\d{8}$/.test(destino)
-    const esEmail = destino.includes('@')
+    // Sacamos los espacios por si lo pegan como "5830 1742"
+    const numero = cuenta.replace(/\s/g, '')
 
-    if (!esCuenta && !esEmail) {
-      setError('Ingresá el email o el número de cuenta de 8 dígitos del destinatario.')
+    if (!/^\d{8}$/.test(numero)) {
+      setError('El número de cuenta tiene que tener 8 dígitos.')
+      return
+    }
+
+    if (numero === usuarioCuenta()) {
+      setError('No podés transferirte a tu propia cuenta.')
       return
     }
 
@@ -47,7 +45,7 @@ export default function FormularioTransferencia({ onListo }: Props) {
     setCargando(true)
     try {
       await realizarTransferencia(
-        destino,
+        numero,
         moneda,
         valor,
         descripcion.trim() || 'Transferencia',
@@ -61,16 +59,24 @@ export default function FormularioTransferencia({ onListo }: Props) {
     }
   }
 
+  // Número de cuenta del usuario logueado (sin espacios)
+  const { usuario } = useUsuario()
+  function usuarioCuenta() {
+    return usuario?.cuenta?.replace(/\s/g, '')
+  }
+
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
       <label className={styles.campo}>
-        <span>Destinatario</span>
+        <span>Número de cuenta del destinatario</span>
         <input
           type="text"
+          inputMode="numeric"
           autoComplete="off"
-          placeholder="Email o número de cuenta"
-          value={destinatario}
-          onChange={(e) => setDestinatario(e.target.value)}
+          maxLength={9}
+          placeholder="Ej: 5830 1742"
+          value={cuenta}
+          onChange={(e) => setCuenta(e.target.value)}
         />
       </label>
 

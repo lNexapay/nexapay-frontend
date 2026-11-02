@@ -140,7 +140,7 @@ export async function realizarConversion(
 // ---------- Transferencias ----------
 
 export async function realizarTransferencia(
-  destinatario: string, // email o número de cuenta de 8 dígitos
+  destinatario: string, // número de cuenta de 8 dígitos
   moneda: CodigoMoneda,
   monto: number,
   descripcion: string,
@@ -150,7 +150,7 @@ export async function realizarTransferencia(
     const data = await pedir<OperacionBack>('/api/transfers', token, {
       method: 'POST',
       body: JSON.stringify({
-        toAlias: destinatario, // el back lo llama toAlias, pero acepta email o número de cuenta
+        toAlias: destinatario, // el back lo llama toAlias, pero lo recibe como numero de cuenta
         currency: moneda,
         amount: monto,
         description: descripcion,
@@ -159,7 +159,7 @@ export async function realizarTransferencia(
     return aOperacion(data)
   } catch (err) {
     if (err instanceof ErrorApi && err.status === 404) {
-      throw new Error('No encontramos ningún usuario con ese email o número de cuenta.')
+      throw new Error('No encontramos ninguna cuenta con ese número.')
     }
     throw err
   }
