@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { ArrowDown, ArrowLeftRight, ChevronRight } from 'lucide-react'
 import { obtenerOperaciones } from '../../services/billetera'
 import type { Operacion, CodigoMoneda } from '../../services/billetera'
@@ -7,7 +8,8 @@ import { useUsuario } from '../../context/UsuarioContext'
 import styles from './TarjetaActividad.module.css'
 
 type Props = {
-  actualizacion: number
+  actualizacion?: number
+  completo?: boolean // true: muestra todo el historial (sin "Ver todo")
 }
 
 // "Hoy, 02:49", "Ayer, 18:20" o "25/10, 14:00"
@@ -32,16 +34,18 @@ function montoConMoneda(monto: number, codigo: CodigoMoneda) {
   return `${infoMonedas[codigo].prefijo} ${formatearMonto(monto)} ${codigo}`
 }
 
-export default function TarjetaActividad({ actualizacion }: Props) {
+export default function TarjetaActividad({ actualizacion = 0, completo = false }: Props) {
   const { token } = useUsuario()
   const [operaciones, setOperaciones] = useState<Operacion[] | null>(null)
   const [error, setError] = useState('')
 
-  // Pide las operaciones al abrir el Dashboard y cada vez que se hace una nueva
+  // En el Dashboard mostramos las últimas 5; en el historial, hasta 100 (el máximo del back)
+  const limite = completo ? 100 : 5
+
   useEffect(() => {
     let activo = true
 
-    obtenerOperaciones(token, 5)
+    obtenerOperaciones(token, limite)
       .then((datos) => {
         if (activo) {
           setOperaciones(datos)
@@ -55,17 +59,20 @@ export default function TarjetaActividad({ actualizacion }: Props) {
     return () => {
       activo = false
     }
-  }, [token, actualizacion])
+  }, [token, actualizacion, limite])
 
   return (
     <section className={styles.tarjeta}>
       <div className={styles.cabecera}>
         <h2>
-          Actividad reciente <span className={styles.chip}>Últimas 5</span>
+          {completo ? 'Todas las operaciones' : 'Actividad reciente'}
+          {!completo && <span className={styles.chip}>Últimas 5</span>}
         </h2>
-        <a href="#" className={styles.verTodo}>
-          Ver todo el historial <ChevronRight size={14} />
-        </a>
+        {!completo && (
+          <Link to="/historial" className={styles.verTodo}>
+            Ver todo el historial <ChevronRight size={14} />
+          </Link>
+        )}
       </div>
 
       {error && <p className={styles.error}>{error}</p>}

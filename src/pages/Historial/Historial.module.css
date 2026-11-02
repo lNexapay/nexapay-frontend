@@ -1,0 +1,21 @@
+.encabezado {
+  margin-bottom: 20px;
+}
+
+.volver {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.encabezado h1 {
+  font-size: 22px;
+}
+
+.encabezado p {
+  font-size: 13px;
+  color: var(--texto-suave);
+  margin-top: 4px;
+}

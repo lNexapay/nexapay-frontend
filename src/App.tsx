@@ -5,6 +5,7 @@ import RutaProtegida from './components/RutaProtegida/RutaProtegida'
 import Login from './pages/Login/Login'
 import Registro from './pages/Registro/Registro'
 import Inicio from './pages/Inicio/Inicio'
+import Historial from './pages/Historial/Historial'
 
 export default function App() {
   return (
@@ -20,6 +21,14 @@ export default function App() {
               element={
                 <RutaProtegida>
                   <Inicio />
+                </RutaProtegida>
+              }
+            />
+            <Route
+              path="/historial"
+              element={
+                <RutaProtegida>
+                  <Historial />
                 </RutaProtegida>
               }
             />
