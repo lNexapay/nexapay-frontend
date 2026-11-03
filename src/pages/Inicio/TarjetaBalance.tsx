@@ -4,17 +4,14 @@ import { obtenerBalanceTotal } from '../../services/billetera'
 import type { BalanceTotal } from '../../services/billetera'
 import { ordenMonedas, formatearMonto } from '../../data/monedas'
 import { useUsuario } from '../../context/UsuarioContext'
+import { useOperaciones } from '../../context/OperacionesContext'
 import TarjetaMoneda from './TarjetaMoneda'
 import AccionesBalance from './AccionesBalance'
 import styles from './TarjetaBalance.module.css'
 
-type Props = {
-  actualizacion: number
-  onOperacion: () => void
-}
-
-export default function TarjetaBalance({ actualizacion, onOperacion }: Props) {
+export default function TarjetaBalance() {
   const { token } = useUsuario()
+  const { version } = useOperaciones()
   const [visible, setVisible] = useState(true)
   const [balance, setBalance] = useState<BalanceTotal | null>(null)
   const [error, setError] = useState('')
@@ -37,7 +34,7 @@ export default function TarjetaBalance({ actualizacion, onOperacion }: Props) {
     return () => {
       activo = false
     }
-  }, [token, actualizacion])
+  }, [token, version])
 
   // Ordenamos las monedas como en el diseño: USD, ARS, COP, EUR
   const monedas = balance
@@ -74,7 +71,7 @@ export default function TarjetaBalance({ actualizacion, onOperacion }: Props) {
           </p>
         </div>
 
-        <AccionesBalance onOperacion={onOperacion} />
+        <AccionesBalance />
       </div>
 
       {error && <p className={styles.error}>{error}</p>}

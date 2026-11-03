@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { UsuarioProvider } from './context/UsuarioContext'
 import { ChatProvider } from './context/ChatContext'
+import { OperacionesProvider } from './context/OperacionesContext'
 import RutaProtegida from './components/RutaProtegida/RutaProtegida'
 import Login from './pages/Login/Login'
 import Registro from './pages/Registro/Registro'
@@ -12,37 +13,39 @@ export default function App() {
   return (
     <UsuarioProvider>
       <ChatProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Navigate to="/login" />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/registro" element={<Registro />} />
-            <Route
-              path="/inicio"
-              element={
-                <RutaProtegida>
-                  <Inicio />
-                </RutaProtegida>
-              }
-            />
-            <Route
-              path="/historial"
-              element={
-                <RutaProtegida>
-                  <Historial />
-                </RutaProtegida>
-              }
-            />
-            <Route
-              path="/monedas"
-              element={
-                <RutaProtegida>
-                  <Monedas />
-                </RutaProtegida>
-              }
-            />
-          </Routes>
-        </BrowserRouter>
+        <OperacionesProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Navigate to="/login" />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/registro" element={<Registro />} />
+              <Route
+                path="/inicio"
+                element={
+                  <RutaProtegida>
+                    <Inicio />
+                  </RutaProtegida>
+                }
+              />
+              <Route
+                path="/historial"
+                element={
+                  <RutaProtegida>
+                    <Historial />
+                  </RutaProtegida>
+                }
+              />
+              <Route
+                path="/monedas"
+                element={
+                  <RutaProtegida>
+                    <Monedas />
+                  </RutaProtegida>
+                }
+              />
+            </Routes>
+          </BrowserRouter>
+        </OperacionesProvider>
       </ChatProvider>
     </UsuarioProvider>
   )

@@ -5,10 +5,10 @@ import { obtenerOperaciones } from '../../services/billetera'
 import type { Operacion, CodigoMoneda } from '../../services/billetera'
 import { infoMonedas, formatearMonto } from '../../data/monedas'
 import { useUsuario } from '../../context/UsuarioContext'
+import { useOperaciones } from '../../context/OperacionesContext'
 import styles from './TarjetaActividad.module.css'
 
 type Props = {
-  actualizacion?: number
   completo?: boolean // true: muestra todo el historial (sin "Ver todo")
 }
 
@@ -34,14 +34,16 @@ function montoConMoneda(monto: number, codigo: CodigoMoneda) {
   return `${infoMonedas[codigo].prefijo} ${formatearMonto(monto)} ${codigo}`
 }
 
-export default function TarjetaActividad({ actualizacion = 0, completo = false }: Props) {
+export default function TarjetaActividad({ completo = false }: Props) {
   const { token } = useUsuario()
+  const { version } = useOperaciones()
   const [operaciones, setOperaciones] = useState<Operacion[] | null>(null)
   const [error, setError] = useState('')
 
   // En el Dashboard mostramos las últimas 5; en el historial, hasta 100 (el máximo del back)
   const limite = completo ? 100 : 5
 
+  // Pide las operaciones al abrir y cada vez que se hace una nueva
   useEffect(() => {
     let activo = true
 
@@ -59,7 +61,7 @@ export default function TarjetaActividad({ actualizacion = 0, completo = false }
     return () => {
       activo = false
     }
-  }, [token, actualizacion, limite])
+  }, [token, version, limite])
 
   return (
     <section className={styles.tarjeta}>
@@ -93,16 +95,14 @@ export default function TarjetaActividad({ actualizacion = 0, completo = false }
               ? op.descripcion || `Depósito en ${op.monedaDestino}`
               : `Conversión ${op.monedaOrigen} a ${op.monedaDestino}`
 
-              const comision =
-                op.comision > 0 && op.monedaComision
+            const comision =
+              op.comision > 0 && op.monedaComision
                 ? ` • Comisión ${formatearMonto(op.comision)} ${op.monedaComision}`
                 : ''
 
             const detalle = esDeposito
               ? formatearFecha(op.fecha)
               : `${formatearFecha(op.fecha)} • Tasa ${op.tasa}${comision}`
-              
-              
 
             return (
               <li key={op.id} className={styles.item}>

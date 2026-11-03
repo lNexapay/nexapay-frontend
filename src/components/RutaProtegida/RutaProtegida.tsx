@@ -2,6 +2,7 @@ import { Navigate } from 'react-router-dom'
 import type { ReactNode } from 'react'
 import { useUsuario } from '../../context/UsuarioContext'
 import ChatFlotante from '../ChatFlotante/ChatFlotante'
+import Operaciones from '../Operaciones/Operaciones'
 
 export default function RutaProtegida({ children }: { children: ReactNode }) {
   const { usuario, cargando } = useUsuario()
@@ -30,6 +31,7 @@ export default function RutaProtegida({ children }: { children: ReactNode }) {
   return (
     <>
       {children}
+      <Operaciones />
       <ChatFlotante />
     </>
   )

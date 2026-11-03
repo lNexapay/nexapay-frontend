@@ -5,6 +5,7 @@ import Logo from '../Logo/Logo'
 import NumeroCuenta from '../NumeroCuenta/NumeroCuenta'
 import { useUsuario, inicial } from '../../context/UsuarioContext'
 import { useChat } from '../../context/ChatContext'
+import { useOperaciones } from '../../context/OperacionesContext'
 import { useCerrarSesion } from '../../hooks/useCerrarSesion'
 import styles from './Sidebar.module.css'
 
@@ -23,6 +24,7 @@ const menu: ItemMenu[] = [
 export default function Sidebar() {
   const { usuario } = useUsuario()
   const { abierto, abrirChat } = useChat()
+  const { abrirOperacion } = useOperaciones()
   const salir = useCerrarSesion()
   const nombre = usuario?.nombre ?? 'Invitado'
 
@@ -30,7 +32,7 @@ export default function Sidebar() {
     <aside className={styles.sidebar}>
       <Logo />
 
-      <button type="button" className={styles.nueva}>
+      <button type="button" className={styles.nueva} onClick={() => abrirOperacion('elegir')}>
         <Plus size={16} /> Nueva Operación
       </button>
 

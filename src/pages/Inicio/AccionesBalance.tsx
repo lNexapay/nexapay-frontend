@@ -1,58 +1,29 @@
-import { useState } from 'react'
 import { ArrowLeftRight, Plus, ArrowUpRight } from 'lucide-react'
-import Modal from '../../components/Modal/Modal'
-import FormularioDeposito from './FormularioDeposito'
-import FormularioConversion from './FormularioConversion'
-import FormularioTransferencia from './FormularioTransferencia'
+import { useOperaciones } from '../../context/OperacionesContext'
 import styles from './AccionesBalance.module.css'
 
-type Props = {
-  onOperacion?: () => void
-}
-
-type TipoModal = 'deposito' | 'conversion' | 'transferencia' | null
-
-export default function AccionesBalance({ onOperacion }: Props) {
-  const [modal, setModal] = useState<TipoModal>(null)
-
-  function cerrar() {
-    setModal(null)
-  }
-
-  function alTerminar() {
-    cerrar()
-    onOperacion?.()
-  }
+export default function AccionesBalance() {
+  const { abrirOperacion } = useOperaciones()
 
   return (
-    <>
-      <div className={styles.acciones}>
-        <button
-          type="button"
-          className={`${styles.boton} ${styles.principal}`}
-          onClick={() => setModal('conversion')}
-        >
-          <ArrowLeftRight size={15} /> Convertir
-        </button>
-        <button type="button" className={styles.boton} onClick={() => setModal('deposito')}>
-          <Plus size={15} /> Ingresar
-        </button>
-        <button type="button" className={styles.boton} onClick={() => setModal('transferencia')}>
-          <ArrowUpRight size={15} /> Transferir
-        </button>
-      </div>
-
-      <Modal titulo="Ingresar dinero" abierto={modal === 'deposito'} onCerrar={cerrar}>
-        <FormularioDeposito onListo={alTerminar} />
-      </Modal>
-
-      <Modal titulo="Convertir moneda" abierto={modal === 'conversion'} onCerrar={cerrar}>
-        <FormularioConversion onListo={alTerminar} />
-      </Modal>
-
-      <Modal titulo="Transferir dinero" abierto={modal === 'transferencia'} onCerrar={cerrar}>
-        <FormularioTransferencia onListo={alTerminar} />
-      </Modal>
-    </>
+    <div className={styles.acciones}>
+      <button
+        type="button"
+        className={`${styles.boton} ${styles.principal}`}
+        onClick={() => abrirOperacion('conversion')}
+      >
+        <ArrowLeftRight size={15} /> Convertir
+      </button>
+      <button type="button" className={styles.boton} onClick={() => abrirOperacion('deposito')}>
+        <Plus size={15} /> Ingresar
+      </button>
+      <button
+        type="button"
+        className={styles.boton}
+        onClick={() => abrirOperacion('transferencia')}
+      >
+        <ArrowUpRight size={15} /> Transferir
+      </button>
+    </div>
   )
 }
