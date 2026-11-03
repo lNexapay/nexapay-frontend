@@ -93,9 +93,16 @@ export default function TarjetaActividad({ actualizacion = 0, completo = false }
               ? op.descripcion || `Depósito en ${op.monedaDestino}`
               : `Conversión ${op.monedaOrigen} a ${op.monedaDestino}`
 
+              const comision =
+                op.comision > 0 && op.monedaComision
+                ? ` • Comisión ${formatearMonto(op.comision)} ${op.monedaComision}`
+                : ''
+
             const detalle = esDeposito
               ? formatearFecha(op.fecha)
-              : `${formatearFecha(op.fecha)} • Tasa ${op.tasa}`
+              : `${formatearFecha(op.fecha)} • Tasa ${op.tasa}${comision}`
+              
+              
 
             return (
               <li key={op.id} className={styles.item}>

@@ -99,6 +99,10 @@ export default function FormularioConversion({ onListo }: Props) {
         />
       </label>
 
+      <p className={styles.nota}>
+        Se cobra una comisión según el par de monedas. Se descuenta del monto que convertís.
+      </p>
+
       {error && <p className={styles.error}>{error}</p>}
 
       <button type="submit" className={styles.boton} disabled={cargando}>

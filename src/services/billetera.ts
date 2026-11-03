@@ -22,11 +22,13 @@ export type Operacion = {
   monedaOrigen: CodigoMoneda
   monedaDestino: CodigoMoneda
   montoOrigen: number
-  montoDestino: number
+  montoDestino: number // ya viene con la comisión descontada
   tasa: number
   estado: string
   descripcion: string
   fecha: Date
+  comision: number // 0 si no hubo comisión
+  monedaComision: CodigoMoneda | null
 }
 
 export type Tasas = {
@@ -60,6 +62,8 @@ type OperacionBack = {
   status: string
   description: string
   createdAt: string
+  feeAmount?: number | null // los movimientos viejos no lo traen
+  feeCurrency?: CodigoMoneda | null
 }
 
 type RespuestaTasas = {
@@ -81,6 +85,8 @@ function aOperacion(op: OperacionBack): Operacion {
     estado: op.status,
     descripcion: op.description,
     fecha: new Date(op.createdAt),
+    comision: op.feeAmount ?? 0,
+    monedaComision: op.feeCurrency ?? null,
   }
 }
 
@@ -150,7 +156,7 @@ export async function realizarTransferencia(
     const data = await pedir<OperacionBack>('/api/transfers', token, {
       method: 'POST',
       body: JSON.stringify({
-        toAlias: destinatario, // el back lo llama toAlias, pero lo recibe como numero de cuenta
+        toAlias: destinatario, // el back lo llama toAlias, pero recibe el número de cuenta
         currency: moneda,
         amount: monto,
         description: descripcion,

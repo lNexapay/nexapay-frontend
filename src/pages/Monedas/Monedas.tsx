@@ -92,7 +92,7 @@ export default function Monedas() {
         <div className={styles.aviso}>
           <Calculator size={16} />
           <span>
-            <strong>Modo calculadora:</strong> los montos son equivalentes, no tu saldo.
+            <strong>Modo calculadora:</strong> equivalentes sin comisión, no es tu saldo.
           </span>
           <button type="button" onClick={() => setSimulacion(null)}>
             Ver mis saldos
