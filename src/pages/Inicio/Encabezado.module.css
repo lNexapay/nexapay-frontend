@@ -13,15 +13,6 @@
   font-size: 22px;
 }
 
-.entorno {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--azul);
-  background: #eff4ff;
-  padding: 3px 8px;
-  border-radius: 6px;
-}
-
 .subtitulo {
   font-size: 13px;
   color: var(--texto-suave);
@@ -51,15 +42,6 @@
   height: 7px;
   border-radius: 50%;
   background: #22c55e;
-}
-
-.modo {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--azul);
-  background: #eff4ff;
-  padding: 6px 12px;
-  border-radius: 999px;
 }
 
 .campana {
@@ -154,8 +136,5 @@
 }
 
 @media (max-width: 900px) {
-  .simulacion,
-  .modo { display: none; }
-  .saludo { font-size: 18px; }
-  .encabezado { align-items: flex-start; }
+  .simulacion { display: none; }
 }

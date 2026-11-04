@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Zap, Mail, Lock, ShieldCheck, ArrowRight, CircleCheck } from 'lucide-react'
+import { Mail, Lock, ShieldCheck, ArrowRight, CircleCheck } from 'lucide-react'
 import AuthLayout from '../../components/AuthLayout/AuthLayout'
 import Input from '../../components/Input/Input'
 import BotonGoogle from '../../components/BotonGoogle/BotonGoogle'
-import { loginUsuario, loginDemo } from '../../services/auth'
+import { loginUsuario } from '../../services/auth'
 import { useUsuario } from '../../context/UsuarioContext'
 import styles from './Login.module.css'
 
@@ -18,7 +18,6 @@ export default function Login() {
   const [recordar, setRecordar] = useState(true)
   const [error, setError] = useState('')
   const [cargando, setCargando] = useState(false)
-  const [cargandoDemo, setCargandoDemo] = useState(false)
 
   // ¿Viene recién registrado desde /registro?
   const recienRegistrado = (location.state as { registrado?: boolean } | null)?.registrado
@@ -44,21 +43,6 @@ export default function Login() {
     }
   }
 
-  // Acceso rápido con la cuenta demo (sesión real en el back)
-  async function entrarComoDemo() {
-    setError('')
-    setCargandoDemo(true)
-    try {
-      const { usuario, token } = await loginDemo()
-      iniciarSesion(usuario, false, token)
-      navigate('/inicio')
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Ocurrió un error inesperado.')
-    } finally {
-      setCargandoDemo(false)
-    }
-  }
-
   return (
     <AuthLayout>
       <h1>Bienvenido de nuevo</h1>
@@ -71,22 +55,6 @@ export default function Login() {
           <CircleCheck size={16} /> ¡Cuenta creada! Ya podés iniciar sesión.
         </p>
       )}
-
-      <button
-        type="button"
-        className={styles.demo}
-        onClick={entrarComoDemo}
-        disabled={cargandoDemo}
-      >
-        <span className={styles.avatar}>N</span>
-        <span className={styles.demoTexto}>
-          <strong>
-            {cargandoDemo ? 'Ingresando...' : 'Ingresar como Nati (Demo)'} <em>EXPRESS</em>
-          </strong>
-          <small>nati@nexapay.demo • Simulación cargada</small>
-        </span>
-        <Zap size={16} className={styles.demoIcono} />
-      </button>
 
       <BotonGoogle />
 

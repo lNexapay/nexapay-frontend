@@ -29,13 +29,6 @@ type RespuestaMe = {
   user: UsuarioBack
 }
 
-// Cuenta de demostración (plata ficticia): el botón demo entra con estos datos
-const CUENTA_DEMO = {
-  nombre: 'Nati',
-  email: 'nati@nexapay.demo',
-  password: 'NexapayDemo2026',
-}
-
 // Traducimos los nombres del back a los del front
 function aUsuario(user: UsuarioBack): Usuario {
   const cuenta = user.accountNumber ?? user.account_number
@@ -46,28 +39,16 @@ function aUsuario(user: UsuarioBack): Usuario {
   }
 }
 
-// Llamadas "crudas" al back, sin traducir errores
-function pedirRegistro(nombre: string, email: string, password: string) {
-  return pedir<RespuestaRegistro>('/api/auth/register', null, {
-    method: 'POST',
-    body: JSON.stringify({ name: nombre, email, password }),
-  })
-}
-
-function pedirLogin(email: string, password: string) {
-  return pedir<RespuestaLogin>('/api/auth/login', null, {
-    method: 'POST',
-    body: JSON.stringify({ email, password }),
-  })
-}
-
 export async function registrarUsuario(
   nombre: string,
   email: string,
   password: string,
 ): Promise<Usuario> {
   try {
-    const data = await pedirRegistro(nombre, email, password)
+    const data = await pedir<RespuestaRegistro>('/api/auth/register', null, {
+      method: 'POST',
+      body: JSON.stringify({ name: nombre, email, password }),
+    })
     return aUsuario(data.user)
   } catch (err) {
     if (err instanceof ErrorApi) {
@@ -85,7 +66,10 @@ export async function loginUsuario(
   password: string,
 ): Promise<{ usuario: Usuario; token: string }> {
   try {
-    const data = await pedirLogin(email, password)
+    const data = await pedir<RespuestaLogin>('/api/auth/login', null, {
+      method: 'POST',
+      body: JSON.stringify({ email, password }),
+    })
     return { usuario: aUsuario(data.user), token: data.token }
   } catch (err) {
     if (err instanceof ErrorApi) {
@@ -96,28 +80,15 @@ export async function loginUsuario(
   }
 }
 
-// Entra con la cuenta demo; si todavía no existe en el back, la crea primero
-export async function loginDemo(): Promise<{ usuario: Usuario; token: string }> {
-  const { nombre, email, password } = CUENTA_DEMO
-
-  try {
-    const data = await pedirLogin(email, password)
-    return { usuario: aUsuario(data.user), token: data.token }
-  } catch (err) {
-    // Cualquier error que no sea "credenciales incorrectas" (ej: sin conexión) se muestra tal cual
-    if (!(err instanceof ErrorApi && err.status === 401)) throw err
-  }
-
-  try {
-    await pedirRegistro(nombre, email, password)
-    const data = await pedirLogin(email, password)
-    return { usuario: aUsuario(data.user), token: data.token }
-  } catch (err) {
-    if (err instanceof ErrorApi && err.status === 409) {
-      throw new Error('La cuenta demo existe pero con otra contraseña. Avisale al equipo.')
-    }
-    throw err
-  }
+// Inicia sesión con el comprobante (idToken) que entrega Google
+export async function loginConGoogle(
+  idToken: string,
+): Promise<{ usuario: Usuario; token: string }> {
+  const data = await pedir<RespuestaLogin>('/api/auth/google', null, {
+    method: 'POST',
+    body: JSON.stringify({ idToken }),
+  })
+  return { usuario: aUsuario(data.user), token: data.token }
 }
 
 export async function logoutUsuario(): Promise<void> {
@@ -138,15 +109,4 @@ export async function renovarSesion(): Promise<string> {
 export async function obtenerUsuarioActual(token: string): Promise<Usuario> {
   const data = await pedir<RespuestaMe>('/api/auth/me', token)
   return aUsuario(data.user)
-}
-
-// Inicia sesión con el comprobante (idToken) que entrega Google
-export async function loginConGoogle(
-  idToken: string,
-): Promise<{ usuario: Usuario; token: string }> {
-  const data = await pedir<RespuestaLogin>('/api/auth/google', null, {
-    method: 'POST',
-    body: JSON.stringify({ idToken }),
-  })
-  return { usuario: aUsuario(data.user), token: data.token }
 }

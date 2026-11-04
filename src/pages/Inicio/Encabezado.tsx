@@ -28,9 +28,7 @@ export default function Encabezado() {
   return (
     <header className={styles.encabezado}>
       <div>
-        <h1 className={styles.saludo}>
-          Hola, {nombre} 👋 <span className={styles.entorno}>Entorno Demo</span>
-        </h1>
+        <h1 className={styles.saludo}>Hola, {nombre} 👋</h1>
 
         {usuario?.cuenta ? (
           <div className={styles.subtitulo}>
@@ -47,7 +45,6 @@ export default function Encabezado() {
         <span className={styles.simulacion}>
           <span className={styles.puntoVerde} /> Simulación Activa
         </span>
-        <span className={styles.modo}>Modo Demo</span>
         <button type="button" className={styles.campana} aria-label="Notificaciones">
           <Bell size={18} />
           <span className={styles.notificacion} />

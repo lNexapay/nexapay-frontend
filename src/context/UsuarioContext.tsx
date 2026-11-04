@@ -7,7 +7,6 @@ export type Usuario = {
   nombre: string
   email: string
   cuenta?: string // número de cuenta (lo genera el back)
-  demo?: boolean // el usuario demo no tiene sesión en el back
 }
 
 type UsuarioContextType = {
@@ -48,11 +47,8 @@ export function UsuarioProvider({ children }: { children: ReactNode }) {
   const [usuario, setUsuario] = useState<Usuario | null>(leerUsuarioGuardado)
   // El token vive solo en memoria: no se guarda en el navegador
   const [token, setToken] = useState<string | null>(null)
-  // Si hay un usuario real guardado, arrancamos "cargando" hasta renovar su sesión
-  const [cargando, setCargando] = useState(() => {
-    const guardado = leerUsuarioGuardado()
-    return guardado !== null && !guardado.demo
-  })
+  // Si hay un usuario guardado, arrancamos "cargando" hasta renovar su sesión
+  const [cargando, setCargando] = useState(() => leerUsuarioGuardado() !== null)
 
   // Escuchamos a api.ts: token renovado automáticamente o sesión terminada
   useEffect(() => {

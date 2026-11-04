@@ -77,7 +77,7 @@ export default function Registro() {
           id="email"
           label="Correo electrónico"
           type="email"
-          placeholder="nati@nexapay.io"
+          placeholder="Tu nombre y apellido"
           value={email}
           onChange={setEmail}
           icono={Mail}
