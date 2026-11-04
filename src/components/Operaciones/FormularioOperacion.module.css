@@ -72,3 +72,39 @@
   padding: 8px 12px;
   border-radius: 10px;
 }
+
+.resumen {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #f8fafc;
+  border: 1px solid var(--borde);
+  font-size: 13px;
+}
+
+.resumen div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.resumen dt {
+  color: var(--texto-suave);
+}
+
+.resumen dd {
+  font-weight: 600;
+  text-align: right;
+}
+
+.recibis {
+  padding-top: 6px;
+  border-top: 1px solid var(--borde);
+}
+
+.recibis dd {
+  color: var(--azul);
+  font-size: 14px;
+}

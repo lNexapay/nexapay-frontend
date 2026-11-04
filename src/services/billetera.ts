@@ -182,3 +182,33 @@ export async function obtenerTasas(): Promise<Tasas> {
     valores: data.rates,
   }
 }
+
+// ---------- Comisiones ----------
+
+export type Comisiones = {
+  conversion: { desde: CodigoMoneda; hacia: CodigoMoneda; porcentaje: number }[]
+  transferencia: number
+}
+
+type RespuestaComisiones = {
+  conversion: { from: CodigoMoneda; to: CodigoMoneda; percent: number }[]
+  transfer: { percent: number }
+}
+
+export async function obtenerComisiones(): Promise<Comisiones> {
+  const data = await pedir<RespuestaComisiones>('/api/fees')
+
+  return {
+    conversion: data.conversion.map((c) => ({
+      desde: c.from,
+      hacia: c.to,
+      porcentaje: c.percent,
+    })),
+    transferencia: data.transfer.percent,
+  }
+}
+
+// Porcentaje de comisión de un par (0 si no está configurado)
+export function porcentajeComision(comisiones: Comisiones, desde: CodigoMoneda, hacia: CodigoMoneda) {
+  return comisiones.conversion.find((c) => c.desde === desde && c.hacia === hacia)?.porcentaje ?? 0
+}

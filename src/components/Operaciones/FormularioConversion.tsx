@@ -1,8 +1,13 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
-import { realizarConversion } from '../../services/billetera'
-import type { CodigoMoneda } from '../../services/billetera'
-import { infoMonedas, ordenMonedas } from '../../data/monedas'
+import {
+  realizarConversion,
+  obtenerComisiones,
+  obtenerTasas,
+  porcentajeComision,
+} from '../../services/billetera'
+import type { CodigoMoneda, Comisiones, Tasas } from '../../services/billetera'
+import { infoMonedas, ordenMonedas, formatearMonto } from '../../data/monedas'
 import { useUsuario } from '../../context/UsuarioContext'
 import styles from './FormularioOperacion.module.css'
 
@@ -19,6 +24,34 @@ export default function FormularioConversion({ onListo }: Props) {
   const [error, setError] = useState('')
   const [cargando, setCargando] = useState(false)
 
+  // Para la estimación: comisiones y tasas del back
+  const [comisiones, setComisiones] = useState<Comisiones | null>(null)
+  const [tasas, setTasas] = useState<Tasas | null>(null)
+
+  useEffect(() => {
+    let activo = true
+    Promise.all([obtenerComisiones(), obtenerTasas()])
+      .then(([datosComisiones, datosTasas]) => {
+        if (!activo) return
+        setComisiones(datosComisiones)
+        setTasas(datosTasas)
+      })
+      .catch(() => {
+        // Si falla, no mostramos la estimación; la conversión funciona igual
+      })
+    return () => {
+      activo = false
+    }
+  }, [])
+
+  // ---------- Estimación ----------
+  const valor = Number(monto) || 0
+  const porcentaje = comisiones ? porcentajeComision(comisiones, desde, hacia) : 0
+  const comision = (valor * porcentaje) / 100
+  const seConvierte = valor - comision
+  const recibis = tasas ? (seConvierte / tasas.valores[desde]) * tasas.valores[hacia] : 0
+  const mostrarEstimacion = comisiones && tasas && valor > 0 && desde !== hacia
+
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
     setError('')
@@ -28,7 +61,6 @@ export default function FormularioConversion({ onListo }: Props) {
       return
     }
 
-    const valor = Number(monto)
     if (!valor || valor <= 0) {
       setError('Ingresá un monto mayor a 0.')
       return
@@ -99,9 +131,32 @@ export default function FormularioConversion({ onListo }: Props) {
         />
       </label>
 
-      <p className={styles.nota}>
-        Se cobra una comisión según el par de monedas. Se descuenta del monto que convertís.
-      </p>
+      {mostrarEstimacion ? (
+        <dl className={styles.resumen}>
+          <div>
+            <dt>Comisión ({formatearMonto(porcentaje, 1)} %)</dt>
+            <dd>
+              {formatearMonto(comision)} {desde}
+            </dd>
+          </div>
+          <div>
+            <dt>Se convierte</dt>
+            <dd>
+              {formatearMonto(seConvierte)} {desde}
+            </dd>
+          </div>
+          <div className={styles.recibis}>
+            <dt>Recibís aprox.</dt>
+            <dd>
+              {infoMonedas[hacia].prefijo} {formatearMonto(recibis)} {hacia}
+            </dd>
+          </div>
+        </dl>
+      ) : (
+        <p className={styles.nota}>
+          Se cobra una comisión según el par de monedas. Se descuenta del monto que convertís.
+        </p>
+      )}
 
       {error && <p className={styles.error}>{error}</p>}
 
