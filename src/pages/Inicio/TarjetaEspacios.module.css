@@ -1,0 +1,112 @@
+.tarjeta {
+  background: #fff;
+  border: 1px solid var(--borde);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.cabecera h2 {
+  font-size: 15px;
+}
+
+.verTodos {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 12px;
+}
+
+.lista {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fila {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icono {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: #f5f0ff;
+  color: var(--violeta);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.nombre {
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.porcentaje {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--violeta);
+}
+
+.barra {
+  height: 6px;
+  border-radius: 999px;
+  background: #f1f5f9;
+  overflow: hidden;
+}
+
+.barra div {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--degradado);
+}
+
+.montos {
+  font-size: 11px;
+  color: var(--texto-suave);
+}
+
+.crear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 14px;
+  border: 1px dashed var(--borde);
+  border-radius: 12px;
+  font-size: 13px;
+}
+
+.vacio {
+  font-size: 13px;
+  color: var(--texto-suave);
+}
+
+.error {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+}

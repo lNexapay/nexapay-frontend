@@ -4,6 +4,7 @@ import Encabezado from './Encabezado'
 import TarjetaBalance from './TarjetaBalance'
 import TarjetaActividad from './TarjetaActividad'
 import TarjetaAI from './TarjetaAI'
+import TarjetaEspacios from './TarjetaEspacios'
 import styles from './Inicio.module.css'
 
 export default function Inicio() {
@@ -21,6 +22,7 @@ export default function Inicio() {
 
           <div className={styles.columna}>
             <TarjetaAI />
+            <TarjetaEspacios />
           </div>
         </div>
       </main>
