@@ -139,3 +139,14 @@ export async function obtenerUsuarioActual(token: string): Promise<Usuario> {
   const data = await pedir<RespuestaMe>('/api/auth/me', token)
   return aUsuario(data.user)
 }
+
+// Inicia sesión con el comprobante (idToken) que entrega Google
+export async function loginConGoogle(
+  idToken: string,
+): Promise<{ usuario: Usuario; token: string }> {
+  const data = await pedir<RespuestaLogin>('/api/auth/google', null, {
+    method: 'POST',
+    body: JSON.stringify({ idToken }),
+  })
+  return { usuario: aUsuario(data.user), token: data.token }
+}
