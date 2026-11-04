@@ -1,8 +1,9 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { UsuarioProvider } from './context/UsuarioContext'
 import { ChatProvider } from './context/ChatContext'
 import { OperacionesProvider } from './context/OperacionesContext'
 import RutaProtegida from './components/RutaProtegida/RutaProtegida'
+import Landing from './pages/Landing/Landing'
 import Login from './pages/Login/Login'
 import Registro from './pages/Registro/Registro'
 import Inicio from './pages/Inicio/Inicio'
@@ -17,7 +18,7 @@ export default function App() {
         <OperacionesProvider>
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Navigate to="/login" />} />
+              <Route path="/" element={<Landing />} />
               <Route path="/login" element={<Login />} />
               <Route path="/registro" element={<Registro />} />
               <Route

@@ -1,0 +1,236 @@
+.pagina {
+  min-height: 100vh;
+  background: #fff;
+}
+
+/* ---------- Barra superior ---------- */
+.barra {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 32px;
+}
+
+.accesos {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ingresar,
+.crear {
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.ingresar {
+  color: var(--texto);
+}
+
+.ingresar:hover {
+  background: #f1f5f9;
+}
+
+.crear {
+  background: var(--azul);
+  color: #fff;
+}
+
+.crear:hover {
+  background: var(--azul-oscuro);
+}
+
+/* ---------- Portada ---------- */
+.portada {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 32px 80px;
+}
+
+.etiqueta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--violeta);
+  background: #f5f0ff;
+  padding: 6px 12px;
+  border-radius: 999px;
+}
+
+.texto h1 {
+  font-size: 48px;
+  line-height: 1.1;
+  margin: 18px 0 16px;
+  letter-spacing: -0.5px;
+}
+
+.texto h1 span {
+  background: var(--degradado);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.texto > p {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--texto-suave);
+  max-width: 520px;
+}
+
+.botones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.principal,
+.secundario {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 50px;
+  padding: 0 24px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.principal {
+  background: var(--azul);
+  color: #fff;
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+}
+
+.principal:hover {
+  background: var(--azul-oscuro);
+}
+
+.secundario {
+  border: 1px solid var(--borde);
+  color: var(--texto);
+}
+
+.secundario:hover {
+  background: #f8fafc;
+}
+
+.texto .aviso {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 20px;
+  font-size: 12px;
+  color: var(--texto-suave);
+}
+
+/* ---------- Tarjeta decorativa ---------- */
+.visual {
+  background: var(--degradado);
+  border-radius: 28px;
+  padding: 48px 32px;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 30px 60px rgba(91, 76, 246, 0.25);
+}
+
+.tarjeta {
+  width: 100%;
+  max-width: 400px;
+  padding: 22px;
+  border-radius: 18px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(12px);
+}
+
+.tarjetaFila {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.subida {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+}
+
+.monto {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 12px 0 18px;
+}
+
+.monto span {
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+.monedas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.moneda {
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.moneda strong {
+  font-size: 12px;
+}
+
+.moneda span {
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+/* ---------- Celular ---------- */
+@media (max-width: 900px) {
+  .portada {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+    padding: 24px 20px 56px;
+  }
+
+  .texto h1 { font-size: 34px; }
+  .texto > p { font-size: 15px; }
+  .visual { padding: 32px 20px; }
+}
+
+@media (max-width: 480px) {
+  .barra { padding: 16px 20px; }
+  .ingresar { display: none; }
+  .botones a { width: 100%; }
+  .monto { font-size: 26px; }
+}
