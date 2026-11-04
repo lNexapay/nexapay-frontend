@@ -14,11 +14,11 @@ const ejemploMonedas = [
   { codigo: 'EUR', monto: '€ 320,00' },
 ]
 
-export default function Landing() {
-  const { usuario } = useUsuario()
+export default function Landing() { 
+  const { usuario, cargando } = useUsuario()
 
-  // Si ya inició sesión, no le mostramos la portada
-  if (usuario) return <Navigate to="/inicio" replace />
+  // Si tiene sesión activa (ya comprobada), no le mostramos la portada
+  if (usuario && !cargando) return <Navigate to="/inicio" replace />
 
   return (
     <div className={styles.pagina}>
