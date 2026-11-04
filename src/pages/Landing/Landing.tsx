@@ -2,6 +2,8 @@ import { Link, Navigate } from 'react-router-dom'
 import { ArrowRight, Sparkles, ShieldCheck, TrendingUp } from 'lucide-react'
 import Logo from '../../components/Logo/Logo'
 import { useUsuario } from '../../context/UsuarioContext'
+import Funcionalidades from './Funcionalidades'
+import Cierre from './Cierre'
 import styles from './Landing.module.css'
 
 // Monedas de ejemplo para la tarjeta de la portada (no son datos reales)
@@ -83,7 +85,11 @@ export default function Landing() {
             </div>
           </div>
         </section>
+
+        <Funcionalidades />
       </main>
+
+      <Cierre />
     </div>
   )
 }

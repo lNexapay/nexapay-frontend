@@ -1,0 +1,102 @@
+/* ---------- Llamado final ---------- */
+.llamado {
+  padding: 72px 32px;
+}
+
+.caja {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 56px 32px;
+  border-radius: 28px;
+  background: var(--degradado);
+  color: #fff;
+  text-align: center;
+  box-shadow: 0 30px 60px rgba(91, 76, 246, 0.25);
+}
+
+.caja h2 {
+  font-size: 32px;
+  line-height: 1.2;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.caja p {
+  font-size: 16px;
+  opacity: 0.9;
+  margin-top: 12px;
+}
+
+.botones {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.principal,
+.secundario {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 50px;
+  padding: 0 24px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.principal {
+  background: #fff;
+  color: var(--azul);
+}
+
+.principal:hover {
+  background: #f1f5ff;
+}
+
+.secundario {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: #fff;
+}
+
+.secundario:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* ---------- Pie de página ---------- */
+.pie {
+  border-top: 1px solid var(--borde);
+  padding: 32px;
+}
+
+.pieContenido {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.pieContenido p {
+  font-size: 13px;
+  color: var(--texto-suave);
+  max-width: 520px;
+}
+
+.pieContenido small {
+  font-size: 12px;
+  color: var(--texto-suave);
+}
+
+@media (max-width: 600px) {
+  .llamado { padding: 48px 20px; }
+  .caja { padding: 40px 20px; border-radius: 22px; }
+  .caja h2 { font-size: 24px; }
+  .botones a { width: 100%; }
+  .pie { padding: 24px 20px; }
+}
