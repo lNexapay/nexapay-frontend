@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Zap, Mail, Lock, ShieldCheck, ArrowRight, CircleCheck } from 'lucide-react'
 import AuthLayout from '../../components/AuthLayout/AuthLayout'
 import Input from '../../components/Input/Input'
+import BotonGoogle from '../../components/BotonGoogle/BotonGoogle'
 import { loginUsuario, loginDemo } from '../../services/auth'
 import { useUsuario } from '../../context/UsuarioContext'
 import styles from './Login.module.css'
@@ -86,6 +87,8 @@ export default function Login() {
         </span>
         <Zap size={16} className={styles.demoIcono} />
       </button>
+
+      <BotonGoogle />
 
       <div className={styles.separador}>o continuá con tu email</div>
 

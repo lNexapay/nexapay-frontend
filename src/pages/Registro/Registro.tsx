@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { User, Mail, Lock, ArrowRight } from 'lucide-react'
 import AuthLayout from '../../components/AuthLayout/AuthLayout'
 import Input from '../../components/Input/Input'
+import BotonGoogle from '../../components/BotonGoogle/BotonGoogle'
 import { registrarUsuario } from '../../services/auth'
 import base from '../Login/Login.module.css'
 import styles from './Registro.module.css'
@@ -58,6 +59,9 @@ export default function Registro() {
       <p className={base.subtitulo}>
         Unite a la nueva generación de finanzas simuladas con NEXAPAY AI.
       </p>
+
+      <BotonGoogle />
+      <div className={base.separador}>o registrate con tu email</div>
 
       <form onSubmit={handleSubmit} className={base.campos}>
         <Input
