@@ -13,10 +13,13 @@ import type { Operacion, CodigoMoneda } from '../../services/billetera'
 import { infoMonedas, formatearMonto } from '../../data/monedas'
 import { useUsuario } from '../../context/UsuarioContext'
 import { useOperaciones } from '../../context/OperacionesContext'
+import type { Filtros } from '../Historial/FiltrosHistorial'
 import styles from './TarjetaActividad.module.css'
 
 type Props = {
   completo?: boolean // true: muestra todo el historial (sin "Ver todo")
+  filtros?: Filtros // solo se usan en el historial
+  alLimpiarFiltros?: () => void
 }
 
 // Lo que se dibuja de cada operación
@@ -54,6 +57,20 @@ function montoConMoneda(monto: number, codigo: CodigoMoneda) {
 
 function textoEstado(estado: string) {
   return estado === 'completed' ? 'Completado' : estado
+}
+
+// ¿La operación coincide con los filtros elegidos?
+function cumpleFiltros(op: Operacion, filtros?: Filtros) {
+  if (!filtros) return true
+  if (filtros.tipo !== 'todos' && op.tipo !== filtros.tipo) return false
+  if (
+    filtros.moneda !== 'todas' &&
+    op.monedaOrigen !== filtros.moneda &&
+    op.monedaDestino !== filtros.moneda
+  ) {
+    return false
+  }
+  return true
 }
 
 // Decide ícono, título, montos y colores según el tipo de operación
@@ -112,7 +129,7 @@ function armarVista(op: Operacion): Vista {
   }
 }
 
-export default function TarjetaActividad({ completo = false }: Props) {
+export default function TarjetaActividad({ completo = false, filtros, alLimpiarFiltros }: Props) {
   const { token } = useUsuario()
   const { version } = useOperaciones()
   const [operaciones, setOperaciones] = useState<Operacion[] | null>(null)
@@ -141,6 +158,10 @@ export default function TarjetaActividad({ completo = false }: Props) {
     }
   }, [token, version, limite])
 
+  const visibles = operaciones?.filter((op) => cumpleFiltros(op, filtros)) ?? []
+  const hayFiltros = !!filtros && (filtros.tipo !== 'todos' || filtros.moneda !== 'todas')
+  const hayOperaciones = !!operaciones && operaciones.length > 0
+
   return (
     <section className={styles.tarjeta}>
       <div className={styles.cabecera}>
@@ -163,9 +184,26 @@ export default function TarjetaActividad({ completo = false }: Props) {
         <p className={styles.vacio}>Todavía no hay operaciones.</p>
       )}
 
-      {operaciones && operaciones.length > 0 && (
+      {hayOperaciones && hayFiltros && (
+        <p className={styles.contador}>
+          Mostrando {visibles.length} de {operaciones.length} movimientos
+        </p>
+      )}
+
+      {hayOperaciones && visibles.length === 0 && (
+        <div className={styles.sinResultados}>
+          <p>No hay movimientos con estos filtros.</p>
+          {alLimpiarFiltros && (
+            <button type="button" className={styles.limpiar} onClick={alLimpiarFiltros}>
+              Limpiar filtros
+            </button>
+          )}
+        </div>
+      )}
+
+      {visibles.length > 0 && (
         <ul className={styles.lista}>
-          {operaciones.map((op) => {
+          {visibles.map((op) => {
             const vista = armarVista(op)
             const Icono = vista.Icono
 

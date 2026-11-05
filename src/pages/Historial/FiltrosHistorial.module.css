@@ -1,0 +1,74 @@
+.filtros {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none; /* oculta la barra de desplazamiento */
+}
+
+.chips::-webkit-scrollbar {
+  display: none;
+}
+
+.chip {
+  flex-shrink: 0;
+  padding: 8px 14px;
+  border: 1px solid var(--borde);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--texto-suave);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.chip:hover {
+  border-color: var(--azul);
+  color: var(--azul);
+}
+
+.activo,
+.activo:hover {
+  border-color: var(--azul);
+  background: var(--azul);
+  color: #fff;
+}
+
+.moneda {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  font-size: 14px;
+  color: var(--texto-suave);
+}
+
+.moneda select {
+  padding: 8px 12px;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  background: #fff;
+  color: var(--texto);
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* En celular: chips arriba (deslizables) y moneda abajo */
+@media (max-width: 768px) {
+  .filtros {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .moneda select {
+    flex: 1;
+  }
+}
