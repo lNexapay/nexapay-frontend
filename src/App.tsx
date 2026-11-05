@@ -10,6 +10,7 @@ import Inicio from './pages/Inicio/Inicio'
 import Historial from './pages/Historial/Historial'
 import Monedas from './pages/Monedas/Monedas'
 import Espacios from './pages/Espacios/Espacios'
+import NoEncontrada from './pages/NoEncontrada/NoEncontrada'
 
 export default function App() {
   return (
@@ -53,6 +54,9 @@ export default function App() {
                   </RutaProtegida>
                 }
               />
+
+              {/* Cualquier otra dirección: página 404 (tiene que ir última) */}
+              <Route path="*" element={<NoEncontrada />} />
             </Routes>
           </BrowserRouter>
         </OperacionesProvider>
