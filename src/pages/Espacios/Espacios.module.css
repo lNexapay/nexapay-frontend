@@ -12,6 +12,34 @@
   margin-top: 4px;
 }
 
+/* Título a la izquierda y botón "Nuevo espacio" a la derecha */
+.encabezadoFila {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.nuevo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 10px;
+  background: var(--azul);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.nuevo:hover {
+  background: var(--azul-oscuro);
+}
+
 .grilla {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -19,6 +47,8 @@
 }
 
 .tarjeta {
+  display: flex;
+  flex-direction: column;
   background: #fff;
   border: 1px solid var(--borde);
   border-radius: 16px;
@@ -98,6 +128,50 @@
   color: var(--texto-suave);
 }
 
+/* Botones Aportar / Retirar: quedan siempre abajo de la tarjeta */
+.acciones {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 14px;
+}
+
+.accion {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 12px;
+  border: 1px solid var(--azul);
+  border-radius: 10px;
+  background: var(--azul);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.accion:hover {
+  background: var(--azul-oscuro);
+}
+
+.accionSecundaria {
+  border-color: var(--borde);
+  background: #fff;
+  color: var(--texto);
+}
+
+.accionSecundaria:hover {
+  background: var(--fondo);
+}
+
+.accion:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .sinEspacios {
   display: flex;
   flex-direction: column;
@@ -120,6 +194,10 @@
   font-size: 13px;
 }
 
+.sinEspacios .nuevo {
+  margin-top: 12px;
+}
+
 .vacio {
   font-size: 13px;
   color: var(--texto-suave);
@@ -135,6 +213,22 @@
 }
 
 @media (max-width: 700px) {
-  .grilla { grid-template-columns: minmax(0, 1fr); }
-  .ahorrado { font-size: 20px; }
+  .grilla {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ahorrado {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .encabezadoFila {
+    flex-direction: column;
+  }
+
+  .encabezadoFila .nuevo {
+    width: 100%;
+    justify-content: center;
+  }
 }
