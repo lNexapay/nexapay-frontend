@@ -1,6 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowDown, ArrowLeftRight, ChevronRight } from 'lucide-react'
+import {
+  ArrowDown,
+  ArrowDownLeft,
+  ArrowLeftRight,
+  ArrowUpRight,
+  ChevronRight,
+} from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 import { obtenerOperaciones } from '../../services/billetera'
 import type { Operacion, CodigoMoneda } from '../../services/billetera'
 import { infoMonedas, formatearMonto } from '../../data/monedas'
@@ -10,6 +17,17 @@ import styles from './TarjetaActividad.module.css'
 
 type Props = {
   completo?: boolean // true: muestra todo el historial (sin "Ver todo")
+}
+
+// Lo que se dibuja de cada operación
+type Vista = {
+  Icono: LucideIcon
+  claseIcono: string
+  titulo: string
+  detalle: string
+  monto: string
+  positivo: boolean
+  secundario: string
 }
 
 // "Hoy, 02:49", "Ayer, 18:20" o "25/10, 14:00"
@@ -32,6 +50,66 @@ function formatearFecha(fecha: Date) {
 // "$ 50,00 USD" o "€ 92,34 EUR"
 function montoConMoneda(monto: number, codigo: CodigoMoneda) {
   return `${infoMonedas[codigo].prefijo} ${formatearMonto(monto)} ${codigo}`
+}
+
+function textoEstado(estado: string) {
+  return estado === 'completed' ? 'Completado' : estado
+}
+
+// Decide ícono, título, montos y colores según el tipo de operación
+function armarVista(op: Operacion): Vista {
+  const fecha = formatearFecha(op.fecha)
+  const nota = op.descripcion ? ` • ${op.descripcion}` : ''
+  const comision =
+    op.comision > 0 && op.monedaComision
+      ? ` • Comisión ${formatearMonto(op.comision)} ${op.monedaComision}`
+      : ''
+
+  switch (op.tipo) {
+    case 'deposito':
+      return {
+        Icono: ArrowDown,
+        claseIcono: styles.ingreso,
+        titulo: op.descripcion || `Depósito en ${op.monedaDestino}`,
+        detalle: fecha,
+        monto: `+ ${montoConMoneda(op.montoDestino, op.monedaDestino)}`,
+        positivo: true,
+        secundario: textoEstado(op.estado),
+      }
+
+    case 'transferencia_enviada':
+      return {
+        Icono: ArrowUpRight,
+        claseIcono: styles.enviada,
+        titulo: 'Transferencia enviada',
+        detalle: `${fecha}${nota}${comision}`,
+        monto: `- ${montoConMoneda(op.montoOrigen, op.monedaOrigen)}`,
+        positivo: false,
+        secundario: textoEstado(op.estado),
+      }
+
+    case 'transferencia_recibida':
+      return {
+        Icono: ArrowDownLeft,
+        claseIcono: styles.ingreso,
+        titulo: 'Transferencia recibida',
+        detalle: `${fecha}${nota}`,
+        monto: `+ ${montoConMoneda(op.montoOrigen, op.monedaOrigen)}`,
+        positivo: true,
+        secundario: textoEstado(op.estado),
+      }
+
+    default:
+      return {
+        Icono: ArrowLeftRight,
+        claseIcono: styles.conversion,
+        titulo: `Conversión ${op.monedaOrigen} a ${op.monedaDestino}`,
+        detalle: `${fecha} • Tasa ${op.tasa}${comision}`,
+        monto: `- ${montoConMoneda(op.montoOrigen, op.monedaOrigen)}`,
+        positivo: false,
+        secundario: `+ ${montoConMoneda(op.montoDestino, op.monedaDestino)}`,
+      }
+  }
 }
 
 export default function TarjetaActividad({ completo = false }: Props) {
@@ -88,49 +166,23 @@ export default function TarjetaActividad({ completo = false }: Props) {
       {operaciones && operaciones.length > 0 && (
         <ul className={styles.lista}>
           {operaciones.map((op) => {
-            const esDeposito = op.tipo === 'deposito'
-            const Icono = esDeposito ? ArrowDown : ArrowLeftRight
-
-            const titulo = esDeposito
-              ? op.descripcion || `Depósito en ${op.monedaDestino}`
-              : `Conversión ${op.monedaOrigen} a ${op.monedaDestino}`
-
-            const comision =
-              op.comision > 0 && op.monedaComision
-                ? ` • Comisión ${formatearMonto(op.comision)} ${op.monedaComision}`
-                : ''
-
-            const detalle = esDeposito
-              ? formatearFecha(op.fecha)
-              : `${formatearFecha(op.fecha)} • Tasa ${op.tasa}${comision}`
+            const vista = armarVista(op)
+            const Icono = vista.Icono
 
             return (
               <li key={op.id} className={styles.item}>
-                <span
-                  className={`${styles.icono} ${esDeposito ? styles.ingreso : styles.conversion}`}
-                >
+                <span className={`${styles.icono} ${vista.claseIcono}`}>
                   <Icono size={16} />
                 </span>
 
                 <div className={styles.info}>
-                  <strong>{titulo}</strong>
-                  <small>{detalle}</small>
+                  <strong>{vista.titulo}</strong>
+                  <small>{vista.detalle}</small>
                 </div>
 
                 <div className={styles.monto}>
-                  {esDeposito ? (
-                    <>
-                      <strong className={styles.positivo}>
-                        + {montoConMoneda(op.montoDestino, op.monedaDestino)}
-                      </strong>
-                      <small>{op.estado === 'completed' ? 'Completado' : op.estado}</small>
-                    </>
-                  ) : (
-                    <>
-                      <strong>- {montoConMoneda(op.montoOrigen, op.monedaOrigen)}</strong>
-                      <small>+ {montoConMoneda(op.montoDestino, op.monedaDestino)}</small>
-                    </>
-                  )}
+                  <strong className={vista.positivo ? styles.positivo : ''}>{vista.monto}</strong>
+                  <small>{vista.secundario}</small>
                 </div>
               </li>
             )

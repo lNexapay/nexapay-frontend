@@ -136,6 +136,13 @@
   font-size: 13px;
 }
 
+/* Transferencia enviada: naranja, para diferenciarla de la conversión */
+.enviada {
+  background: #fff7ed;
+  color: #ea580c;
+}
+
+
 @media (max-width: 480px) {
   .tarjeta { padding: 16px; }
   .item { align-items: flex-start; }

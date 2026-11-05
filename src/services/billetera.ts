@@ -18,7 +18,7 @@ export type BalanceTotal = {
 
 export type Operacion = {
   id: string
-  tipo: 'deposito' | 'conversion'
+  tipo: 'deposito' | 'conversion' | 'transferencia_enviada' | 'transferencia_recibida'
   monedaOrigen: CodigoMoneda
   monedaDestino: CodigoMoneda
   montoOrigen: number
@@ -72,11 +72,19 @@ type RespuestaTasas = {
   rates: Record<CodigoMoneda, number>
 }
 
+// Traduce el tipo del back al del front
+const TIPOS: Record<string, Operacion['tipo']> = {
+  deposit: 'deposito',
+  convert: 'conversion',
+  transfer_out: 'transferencia_enviada',
+  transfer_in: 'transferencia_recibida',
+}
+
 // Traduce una operación del back al formato del front
 function aOperacion(op: OperacionBack): Operacion {
   return {
     id: op.id,
-    tipo: op.type === 'deposit' ? 'deposito' : 'conversion',
+    tipo: TIPOS[op.type] ?? 'conversion', // si llega un tipo nuevo, no se rompe
     monedaOrigen: op.currencyFrom,
     monedaDestino: op.currencyTo,
     montoOrigen: op.amountFrom,
