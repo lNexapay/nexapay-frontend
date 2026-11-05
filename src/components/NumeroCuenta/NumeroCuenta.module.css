@@ -21,6 +21,7 @@
   color: var(--azul);
   display: grid;
   place-items: center;
+  flex-shrink: 0;
   cursor: pointer;
 }
 
@@ -34,10 +35,16 @@
   color: var(--verde);
 }
 
+/* Versión chica del menú lateral: todo en un renglón */
 .compacto {
   font-size: 12px;
-  flex-wrap: wrap;
-  row-gap: 4px;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+/* En la versión chica no hay lugar para "¡Copiado!": alcanza con el ✓ */
+.compacto .aviso {
+  display: none;
 }
 
 @media (max-width: 480px) {

@@ -45,6 +45,7 @@
   color: var(--texto-suave);
   font-size: 14px;
   font-weight: 500;
+  white-space: nowrap; /* "NEXAPAY AI" no se parte en dos renglones */
   transition: background 0.2s;
 }
 
@@ -142,10 +143,14 @@
   color: #b91c1c;
 }
 
-.cuenta {
-  padding-left: 42px;
+/* El número de cuenta y el botón de copiar en un solo renglón */
+.cuenta > div {
+  flex-wrap: nowrap;
+  white-space: nowrap;
 }
 
 @media (max-width: 900px) {
-  .sidebar { display: none; }
+  .sidebar {
+    display: none;
+  }
 }
