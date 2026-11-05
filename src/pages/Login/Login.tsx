@@ -79,7 +79,6 @@ export default function Login() {
           value={password}
           onChange={setPassword}
           icono={Lock}
-          accion={<a href="#">¿Olvidaste tu contraseña?</a>}
         />
 
         <div className={styles.opciones}>
