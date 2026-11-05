@@ -13,10 +13,35 @@ type Simulacion = {
   texto: string
 }
 
-// "15.000,50" o "15000.5" → 15000.5
+const MAXIMO_DIGITOS = 12 // hasta 999.999.999.999
+
+// "15.000,50" → 15000.5
 function leerNumero(texto: string) {
   const limpio = texto.replace(/\./g, '').replace(',', '.')
   return Number(limpio) || 0
+}
+
+// Formatea mientras se escribe: "10000" → "10.000" y "10000,5" → "10.000,5"
+function formatearEscritura(texto: string) {
+  // Solo dejamos números, puntos y comas
+  let limpio = texto.replace(/[^\d.,]/g, '')
+
+  // Un punto recién escrito al final se toma como coma decimal ("10." → "10,")
+  if (limpio.endsWith('.') && !limpio.includes(',')) {
+    limpio = limpio.slice(0, -1) + ','
+  }
+
+  const [parteEntera, ...resto] = limpio.split(',')
+  const entera = parteEntera
+    .replace(/\./g, '') // sacamos los puntos de miles viejos
+    .replace(/^0+(?=\d)/, '') // sin ceros adelante ("007" → "7")
+    .slice(0, MAXIMO_DIGITOS)
+  const decimales = resto.join('').replace(/\./g, '').slice(0, 2) // hasta 2 decimales
+
+  // Puntos de miles: "1234567" → "1.234.567"
+  const enteraConPuntos = entera.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+
+  return limpio.includes(',') ? `${enteraConPuntos || '0'},${decimales}` : enteraConPuntos
 }
 
 export default function Monedas() {
@@ -129,7 +154,9 @@ export default function Monedas() {
                     aria-label={`Monto en ${info.nombre}`}
                     value={editando ? simulacion.texto : formatearMonto(monto)}
                     onFocus={() => alEnfocar(codigo)}
-                    onChange={(e) => setSimulacion({ codigo, texto: e.target.value })}
+                    onChange={(e) =>
+                      setSimulacion({ codigo, texto: formatearEscritura(e.target.value) })
+                    }
                   />
                 </label>
 
