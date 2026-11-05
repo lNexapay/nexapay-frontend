@@ -135,6 +135,22 @@
   background: #fef2f2;
 }
 
+.menuEnlace {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: var(--texto);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.menuEnlace:hover {
+  background: var(--fondo);
+}
+
 @media (max-width: 900px) {
   .simulacion { display: none; }
 }

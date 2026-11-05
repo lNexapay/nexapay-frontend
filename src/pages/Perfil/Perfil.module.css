@@ -1,0 +1,157 @@
+.encabezado {
+  margin-bottom: 20px;
+}
+
+.volver {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.encabezado h1 {
+  font-size: 22px;
+}
+
+.encabezado p {
+  font-size: 13px;
+  color: var(--texto-suave);
+  margin-top: 4px;
+}
+
+.tarjeta {
+  max-width: 560px;
+  background: #fff;
+  border: 1px solid var(--borde);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.cabecera {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--borde);
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--degradado);
+  color: #fff;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.cabecera h2 {
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.etiqueta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: #eff4ff;
+  color: var(--azul);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.datos {
+  list-style: none;
+  margin: 8px 0 24px;
+}
+
+.datos li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--borde);
+}
+
+.datos li:last-child {
+  border-bottom: none;
+}
+
+.datos li > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.datos small {
+  font-size: 11px;
+  color: var(--texto-suave);
+}
+
+.datos strong {
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.icono {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #eff4ff;
+  color: var(--azul);
+}
+
+.monedas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.moneda {
+  padding: 3px 10px;
+  border: 1px solid var(--borde);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--texto);
+}
+
+.salir {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.salir:hover {
+  background: #fee2e2;
+}
+
+@media (max-width: 480px) {
+  .tarjeta {
+    padding: 16px;
+  }
+
+  .salir {
+    width: 100%;
+    justify-content: center;
+  }
+}

@@ -10,6 +10,7 @@ import Inicio from './pages/Inicio/Inicio'
 import Historial from './pages/Historial/Historial'
 import Monedas from './pages/Monedas/Monedas'
 import Espacios from './pages/Espacios/Espacios'
+import Perfil from './pages/Perfil/Perfil'
 import NoEncontrada from './pages/NoEncontrada/NoEncontrada'
 
 export default function App() {
@@ -51,6 +52,14 @@ export default function App() {
                 element={
                   <RutaProtegida>
                     <Espacios />
+                  </RutaProtegida>
+                }
+              />
+              <Route
+                path="/perfil"
+                element={
+                  <RutaProtegida>
+                    <Perfil />
                   </RutaProtegida>
                 }
               />

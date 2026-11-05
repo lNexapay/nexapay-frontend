@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { LogOut } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { LogOut, User } from 'lucide-react'
 import { useUsuario, inicial } from '../../context/UsuarioContext'
 import { useCerrarSesion } from '../../hooks/useCerrarSesion'
 import NumeroCuenta from '../../components/NumeroCuenta/NumeroCuenta'
@@ -66,6 +67,9 @@ export default function Encabezado() {
                 <strong>{nombre}</strong>
                 <small>{usuario?.email}</small>
               </div>
+              <Link to="/perfil" className={styles.menuEnlace} role="menuitem">
+                <User size={16} /> Mi perfil
+              </Link>
               <button type="button" className={styles.menuSalir} onClick={salir} role="menuitem">
                 <LogOut size={16} /> Cerrar sesión
               </button>
