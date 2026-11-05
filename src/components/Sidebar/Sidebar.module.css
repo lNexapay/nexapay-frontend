@@ -149,6 +149,13 @@
   white-space: nowrap;
 }
 
+/* NEXAPAY AI activo (chat abierto): fondo azul y texto blanco */
+.itemBoton.activo,
+.itemBoton.activo:hover {
+  background: var(--azul);
+  color: #fff;
+}
+
 @media (max-width: 900px) {
   .sidebar {
     display: none;
