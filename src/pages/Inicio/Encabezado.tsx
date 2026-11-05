@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
-import { Bell, LogOut } from 'lucide-react'
+import { LogOut } from 'lucide-react'
 import { useUsuario, inicial } from '../../context/UsuarioContext'
 import { useCerrarSesion } from '../../hooks/useCerrarSesion'
 import NumeroCuenta from '../../components/NumeroCuenta/NumeroCuenta'
+import Notificaciones from '../../components/Notificaciones/Notificaciones'
 import styles from './Encabezado.module.css'
 
 export default function Encabezado() {
@@ -45,10 +46,8 @@ export default function Encabezado() {
         <span className={styles.simulacion}>
           <span className={styles.puntoVerde} /> Simulación Activa
         </span>
-        <button type="button" className={styles.campana} aria-label="Notificaciones">
-          <Bell size={18} />
-          <span className={styles.notificacion} />
-        </button>
+
+        <Notificaciones claseBoton={styles.campana} clasePunto={styles.notificacion} />
 
         <div className={styles.perfil} ref={contenedorRef}>
           <button
